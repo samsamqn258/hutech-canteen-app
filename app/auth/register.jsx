@@ -1,11 +1,5 @@
-import {
-    Pressable,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import React, { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
 import ScreenWrapper from '@/components/ScreenWrapper';
 import { StatusBar } from 'expo-status-bar';
 import BackButton from '@/components/BackButton';
@@ -15,14 +9,15 @@ import { theme } from '@/constants/theme';
 import Input from '@/components/Input';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import FooterRow from '@/components/FooterRow';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Error from '@/components/Error';
-import useLogin from '../auth/useLogin';
-import { useSelector } from 'react-redux';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import useRegister from '../auth/useRegister';
 // Schema
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Vui lòng nhập email').email().label('Email'),
@@ -30,13 +25,12 @@ const validationSchema = Yup.object().shape({
         .required('Vui lòng nhập mật khẩu')
         .min(6)
         .label('Mật khẩu'),
+    name: Yup.string().required('Vui lòng nhập họ và tên').label('Tên'),
 });
 
-const Login = () => {
+const SignUp = () => {
     const router = useRouter();
-    const [selectedShop, setSelectedShop] = useState('');
-    const { login, isPending } = useLogin();
-
+    const { register, isPending } = useRegister();
     return (
         <ScreenWrapper bg="white">
             <StatusBar style="dark" />
@@ -44,19 +38,17 @@ const Login = () => {
                 <BackButton router={router} />
 
                 <View>
-                    <Text style={styles.welcomeText}>Chào,</Text>
-                    <Text style={styles.welcomeText}>Bạn Đã Trở Lại</Text>
+                    <Text style={styles.welcomeText}>Hãy,</Text>
+                    <Text style={styles.welcomeText}>Bắt Đầu Nào</Text>
                 </View>
+
                 <Formik
-                    initialValues={{
-                        email: 'toan@gmail.com',
-                        password: '123456',
-                    }}
+                    initialValues={{ email: '', password: '' }}
                     onSubmit={(values) =>
-                        login({
+                        register({
                             email: values.email,
                             password: values.password,
-                            selectedShop,
+                            name: values.name,
                         })
                     }
                     validationSchema={validationSchema}
@@ -77,8 +69,28 @@ const Login = () => {
                                     fontWeight: theme.fonts.semibold,
                                 }}
                             >
-                                Vui lòng đăng nhập để tiếp tục
+                                Vui lòng nhập đầy đủ thông tin để đăng ký
                             </Text>
+                            <View>
+                                <Input
+                                    type="input"
+                                    icon={
+                                        <AntDesign
+                                            name="user"
+                                            size={24}
+                                            color={theme.colors.text}
+                                        />
+                                    }
+                                    placeholder="Nhập họ và tên..."
+                                    onChange={handleChange('name')}
+                                    onBlur={handleBlur('name')}
+                                    value={values.name}
+                                />
+                                {/* Error */}
+                                {errors.name && touched.name && (
+                                    <Error error={errors.name} />
+                                )}
+                            </View>
                             <View>
                                 <Input
                                     type="input"
@@ -110,7 +122,7 @@ const Login = () => {
                                             color={theme.colors.text}
                                         />
                                     }
-                                    secureTextEntry={true}
+                                    secureTextEntry
                                     placeholder="Nhập mật khẩu..."
                                     onChange={handleChange('password')}
                                     onBlur={handleBlur('password')}
@@ -123,51 +135,20 @@ const Login = () => {
                                 )}
                             </View>
 
-                            <Text
-                                style={{
-                                    fontSize: hp(1.6),
-                                    color: theme.colors.text,
-                                    fontWeight: theme.fonts.semibold,
-                                }}
-                            >
-                                Vui lòng chọn địa chỉ căn tin
-                            </Text>
-
-                            <Select
-                                options={[
-                                    {
-                                        label: 'Chi nhánh khu A/B',
-                                        value: 'A/B',
-                                    },
-                                    { label: 'Chi nhánh khu U', value: 'U' },
-                                    { label: 'Chi nhánh khu R', value: 'R' },
-                                    { label: 'Chi nhánh khu E', value: 'E' },
-                                ]}
-                                onChange={(value) => setSelectedShop(value)}
-                                value={selectedShop}
-                            />
-                            <Pressable
-                                onPress={() =>
-                                    router.push('auth/forgotPassword')
-                                }
-                            >
-                                <Text style={styles.forgotPassword}>
-                                    Quên mật khẩu?
-                                </Text>
-                            </Pressable>
                             <Button
-                                title="Đăng nhập"
+                                title="Đăng ký"
                                 loading={isPending}
                                 onPress={handleSubmit}
                             />
                         </View>
                     )}
                 </Formik>
+
                 <FooterRow>
                     <Text style={styles.footerText}>
-                        Bạn chưa có tài khoản?
+                        Bạn bạn đã có tài khoản?
                     </Text>
-                    <Pressable onPress={() => router.push('/auth/register')}>
+                    <Pressable onPress={() => router.push('auth/login')}>
                         <Text
                             style={[
                                 styles.footerText,
@@ -177,7 +158,7 @@ const Login = () => {
                                 },
                             ]}
                         >
-                            Đăng ký
+                            Đăng nhập
                         </Text>
                     </Pressable>
                 </FooterRow>
@@ -186,12 +167,12 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: 40,
+        gap: 45,
         marginTop: hp(2),
         paddingHorizontal: wp(5),
     },
@@ -203,12 +184,12 @@ const styles = StyleSheet.create({
     form: {
         gap: 20,
     },
-    forgotPassword: {
-        textAlign: 'right',
-        fontWeight: theme.fonts.semibold,
-        color: theme.colors.text,
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 5,
     },
-
     footerText: {
         textAlign: 'center',
         color: theme.colors.text,

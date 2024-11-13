@@ -35,6 +35,7 @@ const ForgotPassword = () => {
                         Vui lòng nhập Email để lấy lại mật khẩu
                     </Text>
                     <Input
+                        type="input"
                         icon={
                             <Fontisto
                                 name="email"

@@ -9,15 +9,13 @@ import { theme } from '@/constants/theme';
 import Input from '@/components/Input';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Button from '@/components/Button';
-import Select from '@/components/Select';
 import FooterRow from '@/components/FooterRow';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Error from '@/components/Error';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import useRegister from '../auth/useRegister';
+import useRegister from './useRegister';
 // Schema
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Vui lòng nhập email').email().label('Email'),

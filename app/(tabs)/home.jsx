@@ -7,11 +7,19 @@ import { useSelector } from 'react-redux';
 import Carousel from '@/components/home/Carousel';
 import Categories from '@/components/home/Categories';
 import Products from '@/components/home/Products';
+import useCategories from '../category/useCategories';
+import useProductsInCategory from '../product/useProductsInCategory';
+import Loading from '@/components/Loading';
+import CategoryProducts from '@/components/home/CategoryProducts';
 
 const Home = () => {
     const user = useSelector((state) => state.auth.user.metaData.user);
+    const { categories, isPending: isCategories } = useCategories();
+
+    if (isCategories) return <Loading />;
+
     return (
-        <ScrollView className="bg-body">
+        <ScrollView className="bg-body" showsVerticalScrollIndicator={false}>
             <Container>
                 {/* Header */}
                 <Header user={user} />
@@ -22,9 +30,14 @@ const Home = () => {
                 {/* Carousel */}
                 <Carousel />
                 {/* List Category */}
-                <Categories />
-                {/* List Product */}
-                <Products />
+                <Categories categories={categories} />
+                {/* List Product In Category */}
+                {categories.metaData.map((category) => (
+                    <CategoryProducts
+                        key={category._id}
+                        categoryId={category._id}
+                    />
+                ))}
             </Container>
         </ScrollView>
     );

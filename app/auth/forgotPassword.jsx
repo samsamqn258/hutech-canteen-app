@@ -10,68 +10,58 @@ import Button from '@/components/Button';
 import { hp, wp } from '@/helpers/common';
 import { theme } from '@/constants/theme';
 const ForgotPassword = () => {
-    const router = useRouter();
-    const emailRef = useRef('');
-    const [isLoading, setIsLoading] = useState(false);
-    const onSubmit = () => {};
-    return (
-        <ScreenWrapper bg="white">
-            <StatusBar style="dark" />
-            <View style={styles.container}>
-                <BackButton router={router} />
+  const router = useRouter();
+  const emailRef = useRef('');
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = () => {};
+  return (
+    <ScreenWrapper bg="white">
+      <StatusBar style="dark" />
+      <View style={styles.container}>
+        <BackButton router={router} />
 
-                <View>
-                    <Text style={styles.welcomeText}>Quên Mật Khẩu</Text>
-                </View>
+        <View>
+          <Text style={styles.welcomeText}>Quên Mật Khẩu</Text>
+        </View>
 
-                <View style={styles.form}>
-                    <Text
-                        style={{
-                            fontSize: hp(1.6),
-                            color: theme.colors.text,
-                            fontWeight: theme.fonts.semibold,
-                        }}
-                    >
-                        Vui lòng nhập Email để lấy lại mật khẩu
-                    </Text>
-                    <Input
-                        type="input"
-                        icon={
-                            <Fontisto
-                                name="email"
-                                size={24}
-                                color={theme.colors.text}
-                            />
-                        }
-                        placeholder="Nhập địa chỉ Email..."
-                        onChange={(value) => (emailRef.current = value)}
-                    />
-                    <Button
-                        title="Xác nhận"
-                        loading={isLoading}
-                        onPress={onSubmit}
-                    />
-                </View>
-            </View>
-        </ScreenWrapper>
-    );
+        <View style={styles.form}>
+          <Text
+            style={{
+              fontSize: hp(1.6),
+              color: theme.colors.text,
+              fontWeight: theme.fonts.semibold,
+            }}
+          >
+            Vui lòng nhập Email để lấy lại mật khẩu
+          </Text>
+          <Input
+            type="input"
+            icon={<Fontisto name="email" size={24} color={theme.colors.text} />}
+            placeholder="Nhập địa chỉ Email..."
+            onChange={(value) => (emailRef.current = value)}
+          />
+          <Button title="Xác nhận" loading={isLoading} onPress={onSubmit} />
+        </View>
+      </View>
+    </ScreenWrapper>
+  );
 };
 
 export default ForgotPassword;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        gap: 45,
-        marginTop: hp(2),
-        paddingHorizontal: wp(5),
-    },
-    welcomeText: {
-        fontSize: hp(4),
-        fontWeight: theme.fonts.bold,
-        color: theme.colors.text,
-    },
-    form: {
-        gap: 20,
-    },
+  container: {
+    flex: 1,
+    gap: 45,
+    marginTop: hp(2),
+    paddingHorizontal: wp(5),
+  },
+  welcomeText: {
+    fontSize: hp(4),
+    fontWeight: theme.fonts.bold,
+    color: theme.colors.text,
+  },
+  form: {
+    gap: 20,
+  },
 });

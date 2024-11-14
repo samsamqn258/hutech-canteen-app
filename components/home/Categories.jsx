@@ -7,7 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { theme } from '@/constants/theme';
 import { wp } from '@/helpers/common';
 import CategoryItem from './CategoryItem';
-const Categories = () => {
+const Categories = ({ categories }) => {
     return (
         <View className="mt-6 rounded-xl bg-white shadow-3xl p-4">
             <Row>
@@ -21,7 +21,7 @@ const Categories = () => {
                 </ButtonIcon>
             </Row>
 
-            <CategoryItem />
+            <CategoryItem categories={categories} />
         </View>
     );
 };

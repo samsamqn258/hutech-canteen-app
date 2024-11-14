@@ -1,8 +1,8 @@
 import { API_BASE_URL } from '../../constants/url';
-import { token } from '../../constants/getToken';
+
 const API_URL = `${API_BASE_URL}/shop`;
 
-export const getShops = async () => {
+export const getStores = async (token) => {
     try {
         const res = await fetch(`${API_URL}/getAll`, {
             method: 'GET',
@@ -11,13 +11,17 @@ export const getShops = async () => {
                 Authorization: token,
             },
         });
+
+        const data = await res.json();
+
+        return data;
     } catch (e) {
         console.error('Lỗi không tìm thấy danh dách cửa hàng');
         throw new Error('Lỗi tìm thấy danh dách cửa hàng');
     }
 };
 
-export const getShop = async (shopID) => {
+export const getStore = async (shopID, token) => {
     try {
         const res = await fetch(`${API_URL}/getById/${shopID}`, {
             method: 'GET',

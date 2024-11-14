@@ -9,99 +9,26 @@ import {
 import React, { useRef } from 'react';
 import { wp } from '@/helpers/common';
 
-const CategoryItem = () => {
-    const data = [
-        {
-            id: '1',
-            title: 'Món Mới Phải Thử',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '2',
-            title: 'Trà Trái Cây - HiTea',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '3',
-            title: 'Trà Xanh - Chocolate',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '4',
-            title: 'Cà Phê',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '5',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '6',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '7',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '8',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '9',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '10',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '11',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '12',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-        {
-            id: '13',
-            title: 'Món Nóng',
-            imageUrl:
-                'https://res.cloudinary.com/dkxoatxjl/image/upload/v1730477356/product_images/1730477354520.png',
-        },
-    ];
+import Empty from '../Empty';
+const CategoryItem = ({ categories }) => {
     const scrollX = useRef(new Animated.Value(0)).current;
 
+    const data = categories?.metaData;
+
+    if (!data) return <Empty value="Không có danh mục sản phẩm nào" />;
+
     const renderItem = ({ item }) => (
-        <View className="w-20 mr-2 mb-4">
+        <View className="w-20 mr-4 mb-4">
             <View className="flex gap-2 items-center">
-                <View className="rounded-full object-cover bg-secondary p-4 h-14 w-14 flex items-center justify-center">
+                <View className="rounded-full  bg-secondary p-4 h-14 w-14 flex items-center justify-center">
                     <Image
-                        source={{ uri: item.imageUrl }}
-                        className="h-10 w-10"
+                        source={{ uri: item.category_images }}
+                        className="h-10 w-10 object-cover"
                     />
                 </View>
-                <Text className="text-text font-semibold">{item.title}</Text>
+                <Text className="text-text font-semibold">
+                    {item.category_name}
+                </Text>
             </View>
         </View>
     );
@@ -123,9 +50,9 @@ const CategoryItem = () => {
                 <FlatList
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item._id}
                     contentContainerStyle={{ alignSelf: 'flex-start' }}
-                    numColumns={Math.ceil(data.length / 2)}
+                    numColumns={Math.ceil(data.length / 3 + 1)}
                 />
             </ScrollView>
             <View className="h-[4px] w-10 bg-slate-300 rounded-full mt-3 self-center">

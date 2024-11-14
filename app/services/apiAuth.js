@@ -3,13 +3,14 @@ import { API_BASE_URL } from '../../constants/url';
 const API_URL = `${API_BASE_URL}/user`;
 
 export const login = async ({ email, password, selectedShop: shop }) => {
+    console.log(shop);
     try {
         const res = await fetch(`${API_URL}/loginUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password, shop }),
+            body: JSON.stringify({ email, password, shop_id: shop }),
         });
 
         if (!res.ok) {

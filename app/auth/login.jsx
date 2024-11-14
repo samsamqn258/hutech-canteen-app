@@ -1,10 +1,4 @@
-import {
-    Pressable,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import ScreenWrapper from '@/components/ScreenWrapper';
 import { StatusBar } from 'expo-status-bar';
@@ -22,7 +16,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Error from '@/components/Error';
 import useLogin from '../auth/useLogin';
-import { useSelector } from 'react-redux';
+import useStores from '../store/useStores';
+import Loading from '../../components/Loading';
+import { store } from '../(redux)/store';
+import Empty from '@/components/Empty';
 // Schema
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Vui lòng nhập email').email().label('Email'),
@@ -34,9 +31,21 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
     const router = useRouter();
-    const [selectedShop, setSelectedShop] = useState('');
-    const { login, isPending } = useLogin();
+    const { stores, isPending } = useStores();
+    const [selectedShop, setSelectedShop] = useState(
+        stores?.metaData[0]?._id || ''
+    );
+    const { login, isPending: isLogin } = useLogin();
+    const isLoading = isLogin || isPending;
 
+    if (isLoading) return <Loading />;
+
+    const shopOptions = stores?.metaData?.map((store) => ({
+        label: store.shop_name,
+        value: store._id,
+    }));
+
+    console.log(selectedShop);
     return (
         <ScreenWrapper bg="white">
             <StatusBar style="dark" />
@@ -134,18 +143,11 @@ const Login = () => {
                             </Text>
 
                             <Select
-                                options={[
-                                    {
-                                        label: 'Chi nhánh khu A/B',
-                                        value: 'A/B',
-                                    },
-                                    { label: 'Chi nhánh khu U', value: 'U' },
-                                    { label: 'Chi nhánh khu R', value: 'R' },
-                                    { label: 'Chi nhánh khu E', value: 'E' },
-                                ]}
+                                options={shopOptions}
                                 onChange={(value) => setSelectedShop(value)}
                                 value={selectedShop}
                             />
+
                             <Pressable
                                 onPress={() =>
                                     router.push('auth/forgotPassword')
@@ -157,7 +159,7 @@ const Login = () => {
                             </Pressable>
                             <Button
                                 title="Đăng nhập"
-                                loading={isPending}
+                                loading={isLoading}
                                 onPress={handleSubmit}
                             />
                         </View>

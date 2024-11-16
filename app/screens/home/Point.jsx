@@ -14,8 +14,7 @@ const Point = ({ user }) => {
         paddingTop: 30,
         paddingHorizontal: 20,
         paddingBottom: 20,
-      }}
-    >
+      }}>
       <View className="flex flex-row items-center justify-between">
         <Text className="text-white font-semibold text-lg">{user?.name}</Text>
         <Text className="bg-secondary pt-2 pb-2 pl-5 pr-3 absolute right-[-20px] text-dark font-semibold text-lg rounded-tl-full rounded-bl-full">

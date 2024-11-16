@@ -1,15 +1,17 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import Input from './Input';
 import Feather from '@expo/vector-icons/Feather';
-const Search = () => {
+const SearchInput = ({ onPress, query, onChange }) => {
   return (
     <Input
       type="search"
       icon={<Feather name="search" size={20} color="black" />}
       placeholder="Tìm kiếm"
+      onPress={onPress}
+      value={query}
+      onChange={onChange}
     />
   );
 };
 
-export default Search;
+export default SearchInput;

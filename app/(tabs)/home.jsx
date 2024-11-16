@@ -1,46 +1,41 @@
-import { View, Text, ScrollView } from 'react-native';
+import { FlatList, Text } from 'react-native';
 import React from 'react';
-import Header from '@/components/home/Header';
 import Container from '@/components/Container';
-import Point from '@/components/home/Point';
 import { useSelector } from 'react-redux';
-import Carousel from '@/components/home/Carousel';
-import Categories from '@/components/home/Categories';
-import Products from '@/components/home/Products';
 import useCategories from '../category/useCategories';
-import useProductsInCategory from '../product/useProductsInCategory';
 import Loading from '@/components/Loading';
-import CategoryProducts from '@/components/home/CategoryProducts';
+import HeaderHome from '../screens/home/HeaderHome';
+import Point from '../screens/home/Point';
+import Carousel from '../screens/home/Carousel';
+import Categories from '../screens/home/Categories';
+import CategoryProducts from '../screens/home/CategoryProducts';
 
 const Home = () => {
-    const user = useSelector((state) => state.auth.user.metaData.user);
-    const { categories, isPending: isCategories } = useCategories();
+  const user = useSelector((state) => state.auth.user.metaData.user);
+  const { categories, isPending: isCategories } = useCategories();
 
-    if (isCategories) return <Loading />;
+  if (isCategories) return <Loading />;
 
-    return (
-        <ScrollView className="bg-body" showsVerticalScrollIndicator={false}>
-            <Container>
-                {/* Header */}
-                <Header user={user} />
-                {/* My Point */}
-                <Point user={user} />
-                {/* List Feature
-                <Features /> */}
-                {/* Carousel */}
-                <Carousel />
-                {/* List Category */}
-                <Categories categories={categories} />
-                {/* List Product In Category */}
-                {categories.metaData.map((category) => (
-                    <CategoryProducts
-                        key={category._id}
-                        categoryId={category._id}
-                    />
-                ))}
-            </Container>
-        </ScrollView>
-    );
+  const renderHeader = () => (
+    <Container>
+      <HeaderHome user={user} />
+      <Point user={user} />
+      <Carousel />
+      <Categories categories={categories} />
+    </Container>
+  );
+
+  return (
+    <FlatList
+      data={categories.metaData}
+      renderItem={({ item }) => <CategoryProducts key={item._id} categoryId={item._id} />}
+      keyExtractor={(item) => item._id}
+      ListHeaderComponent={renderHeader}
+      showsVerticalScrollIndicator={false}
+      ListEmptyComponent={<Text>No categories available</Text>}
+      className="bg-body"
+    />
+  );
 };
 
 export default Home;

@@ -3,9 +3,7 @@ import React from 'react';
 
 const Info = ({ user }) => {
   return (
-    <Text className="text-dark font-semibold text-lg">
-      {user?.name} ơi, Chào buổi sáng nhé!
-    </Text>
+    <Text className="text-dark font-semibold text-lg">{user?.name} ơi, Chào buổi sáng nhé!</Text>
   );
 };
 

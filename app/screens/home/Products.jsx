@@ -13,13 +13,8 @@ const Products = ({ products, numColumn = 1 }) => {
       keyExtractor={(item, index) => item._id || index.toString()}
       numColumns={numColumn}
       className="mt-4"
-      maxToRenderPerBatch={5}
-      initialNumToRender={10}
-      windowSize={5}
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={numColumn > 1 ? { justifyContent: 'space-between' } : ''}
-      removeClippedSubviews={true}
-      nestedScrollEnabled={true}
     />
   );
 };

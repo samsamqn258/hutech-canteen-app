@@ -1,14 +1,20 @@
 import { View } from 'react-native';
 import React from 'react';
-import { theme } from '@/constants/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Header = ({ children, bg }) => {
-  return (
-    <View
-      className={`${bg} absolute top-0 left-0 right-0 z-10  flex flex-row items-center justify-between pt-14 pb-4 pl-3 pr-3`}>
-      {children}
-    </View>
-  );
+    const { top } = useSafeAreaInsets();
+    const paddingTop = top > 0 ? top + 5 : 30;
+    return (
+        <View
+            className={`${bg} pb-5 flex flex-row items-center justify-between mx-[-20px] px-5  `}
+            style={{
+                marginTop: -paddingTop,
+                paddingTop,
+            }}>
+            {children}
+        </View>
+    );
 };
 
 export default Header;

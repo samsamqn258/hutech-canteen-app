@@ -10,7 +10,7 @@ const StoreItem = ({ store }) => {
     location_id: locationID,
   } = store;
   return (
-    <View className="mt-1 w-full bg-white p-4 h-32 rounded-lg shadow-xl flex flex-row gap-4">
+    <View className="mt-2 w-full bg-white p-4 h-32 rounded-lg shadow-xl flex flex-row gap-4">
       <Image source={{ uri: shopImage }} className="w-24 h-full rounded-lg object-cover" />
       <View className="flex flex-col justify-between">
         <View>

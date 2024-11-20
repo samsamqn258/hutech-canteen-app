@@ -1,8 +1,7 @@
 import { Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { loadUser } from '../auth/authSlice';
-
+import { loadUser } from '../../src/features/auth/authSlice';
 const AppWrapper = () => {
     const dispatch = useDispatch();
 
@@ -13,7 +12,7 @@ const AppWrapper = () => {
     return (
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="auth/welcome" />
+            <Stack.Screen name="screens/auth/welcome" />
         </Stack>
     );
 };

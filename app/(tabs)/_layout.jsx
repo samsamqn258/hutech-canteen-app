@@ -3,7 +3,8 @@ import { Tabs } from 'expo-router';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { theme } from '@/constants/theme';
+import { theme } from '@/src/constants/theme';
+
 const TabLayout = () => {
     return (
         <Tabs
@@ -15,8 +16,7 @@ const TabLayout = () => {
                     fontWeight: 'bold',
                     fontSize: 12,
                 },
-            }}
-        >
+            }}>
             <Tabs.Screen
                 name="home"
                 options={{
@@ -36,9 +36,7 @@ const TabLayout = () => {
                 options={{
                     title: 'Đặt hàng',
                     headerShown: false,
-                    tabBarIcon: ({ color }) => (
-                        <Feather name="coffee" size={24} color={color} />
-                    ),
+                    tabBarIcon: ({ color }) => <Feather name="coffee" size={24} color={color} />,
                 }}
             />
             <Tabs.Screen
@@ -47,11 +45,7 @@ const TabLayout = () => {
                     title: 'Cửa hàng',
                     headerShown: false,
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons
-                            name="storefront-outline"
-                            size={24}
-                            color={color}
-                        />
+                        <MaterialCommunityIcons name="storefront-outline" size={24} color={color} />
                     ),
                 }}
             />
@@ -60,9 +54,7 @@ const TabLayout = () => {
                 options={{
                     title: 'Ưu Đãi',
                     headerShown: false,
-                    tabBarIcon: ({ color }) => (
-                        <AntDesign name="tagso" size={24} color={color} />
-                    ),
+                    tabBarIcon: ({ color }) => <AntDesign name="tagso" size={24} color={color} />,
                 }}
             />
             <Tabs.Screen
@@ -70,9 +62,7 @@ const TabLayout = () => {
                 options={{
                     title: 'Khác',
                     headerShown: false,
-                    tabBarIcon: ({ color }) => (
-                        <Feather name="menu" size={24} color={color} />
-                    ),
+                    tabBarIcon: ({ color }) => <Feather name="menu" size={24} color={color} />,
                 }}
             />
         </Tabs>

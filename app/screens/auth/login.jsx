@@ -6,7 +6,7 @@ import BackButton from '@/src/components/BackButton';
 import { useRouter } from 'expo-router';
 import { hp, wp } from '@/src/helpers/common';
 import { theme } from '@/src/constants/theme';
-import Input from '../../../src/components/Input';
+
 import Fontisto from '@expo/vector-icons/Fontisto';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Button from '@/src/components/Button';
@@ -18,6 +18,7 @@ import Error from '@/src/components/Error';
 import useLogin from '../../../src/features/auth/useLogin';
 import useStores from '../store/useStores';
 import Loading from '@/src/components/Loading';
+import Input from '@/src/components/Input';
 
 // Schema
 const validationSchema = Yup.object().shape({

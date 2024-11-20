@@ -13,7 +13,7 @@ const StoreDetail = ({ store, onClose }) => {
     const { openingHour, isPending } = useOpeningHour(opening_hours);
     return (
         <View>
-            <Pressable className="absolute top-2 right-6 z-10" onPressInss={onClose}>
+            <Pressable className="absolute top-2 right-6 z-10" onPress={onClose}>
                 <AntDesign name="closecircle" size={30} color={theme.colors.text} />
             </Pressable>
             <Image source={{ uri: shop_image }} className="w-full h-80 object-cover" />
@@ -31,8 +31,8 @@ const StoreDetail = ({ store, onClose }) => {
                 {isPending ? (
                     <Loading />
                 ) : (
-                    <View className="p-2">
-                        <View className="bg-red-500">
+                    <View className="p-4">
+                        <View className="bg-red-500 p-2">
                             <Text>{openingHour.metaData.monday ? 'Thứ hai' : ''}</Text>
                         </View>
                     </View>

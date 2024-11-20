@@ -5,8 +5,8 @@ import { theme } from '../constants/theme';
 const Input = (props) => {
     const base = 'flex flex-row items-center justify-stretch';
     const styles = {
-        input: base + 'h-16 p-4 gap-4 !border-[1px] !border-dark !rounded-2xl',
-        search: base + 'h-14 bg-darkLight gap-2 rounded-xl p-3 flex-1',
+        input: base + ' h-20 p-4 gap-4 border-[1px] border-dark rounded-2xl',
+        search: base + ' h-15 bg-darkLight gap-2 rounded-xl px-3 py-2 flex-1',
     };
     return (
         <View className={styles[props.type]}>

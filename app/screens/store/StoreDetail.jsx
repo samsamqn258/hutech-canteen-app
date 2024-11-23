@@ -7,10 +7,15 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import useOpeningHour from '../openingHour/useOpeningHour.js';
 import Loading from '@/src/components/Loading.jsx';
 import { theme } from '@/src/constants/theme.js';
+import OpeningHour from '../openingHour/OpeningHour.jsx';
 const StoreDetail = ({ store, onClose }) => {
     const { location_id, opening_hours, shop_image, shop_name, status, createAt, description } =
         store.metaData;
     const { openingHour, isPending } = useOpeningHour(opening_hours);
+    if (isPending) return <Loading />;
+
+    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = openingHour.metaData;
+
     return (
         <View>
             <Pressable className="absolute top-2 right-6 z-10" onPress={onClose}>
@@ -26,15 +31,21 @@ const StoreDetail = ({ store, onClose }) => {
                     </Text>
                 </View>
                 <Text className="text-3xl font-semibold">{shop_name}</Text>
-                <Text className="text-text text-base">Giờ hoạt động</Text>
 
                 {isPending ? (
                     <Loading />
                 ) : (
-                    <View className="p-4">
-                        <View className="bg-red-500 p-2">
-                            <Text>{openingHour.metaData.monday ? 'Thứ hai' : ''}</Text>
-                        </View>
+                    <View className="rounded-xl w-72 my-0 mx-auto mt-4">
+                        <Text className="text-dark text-2xl font-semibold text-center">
+                            Khung giờ hoạt động
+                        </Text>
+                        <OpeningHour day="Thứ hai" open={monday.open} close={monday.close} />
+                        <OpeningHour day="Thứ ba" open={tuesday.open} close={tuesday.close} />
+                        <OpeningHour day="Thứ tư" open={wednesday.open} close={wednesday.close} />
+                        <OpeningHour day="Thứ năm" open={thursday.open} close={thursday.close} />
+                        <OpeningHour day="Thứ sáu" open={friday.open} close={friday.close} />
+                        <OpeningHour day="Thứ bảy" open={saturday.open} close={saturday.close} />
+                        <OpeningHour day="Chủ nhật" open={sunday.open} close={sunday.close} />
                     </View>
                 )}
             </View>

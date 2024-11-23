@@ -8,7 +8,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppWrapper from './(redux)/AppWrapper';
 import '../global.css';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            // staleTime: 60 * 1000,
+            staleTime: 0,
+        },
+    },
+});
 
 const RootLayout = () => {
     return (

@@ -13,12 +13,12 @@ export default function Search() {
     const [query, setQuery] = useState('');
 
     const handleChange = function (e) {
-        if (pathname.startsWith('/search')) router.setParams({ query: e });
+        if (pathname.startsWith('/screens/search')) router.setParams({ query: e });
         setQuery(e);
     };
     if (!products)
         return (
-            <View className=" pr-5 pl-5 bg-white h-full pt-16">
+            <View className="pr-5 pl-5 bg-white h-full pt-16">
                 <View>
                     <Row>
                         <SearchInput onChange={handleChange} value={query} />

@@ -17,7 +17,7 @@ const StoreItem = ({ store, onPress }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <View className="mt-2 w-full bg-white p-4 h-32 rounded-lg shadow-xl flex flex-row gap-4">
+            <View className="mt-2 w-full bg-white p-4 h-32 rounded-lg shadow-sm flex flex-row gap-4">
                 <Image
                     source={{ uri: shopImage }}
                     className="w-24 h-full rounded-lg object-cover"

@@ -6,7 +6,7 @@ import useStores from '../screens/store/useStores';
 import useStore from '../screens/store/useStore';
 
 import Loading from '@/src/components/Loading';
-import { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import ScreenWrapper from '@/src/components/ScreenWrapper';
 import CustomBottomSheetModal from '@/src/components/CustomBottomSheetModal';
 import StoreDetail from '../screens/store/StoreDetail';
@@ -19,21 +19,21 @@ const Store = () => {
 
     const handleStoreItemPress = (shopID) => {
         setSelectedShopID(shopID);
+        if (!isStoring) {
+            bottomSheetRef.current?.present();
+        }
     };
 
     const handleClose = () => {
         bottomSheetRef.current?.close();
+        setSelectedShopID('');
     };
 
     useEffect(() => {
-        if (selectedShopID) {
+        if (!isStoring) {
             bottomSheetRef.current?.present();
         }
-    }, [selectedShopID]);
-
-    // const handleClosePress = () => bottomSheetRef.current?.close();
-    // const handleCollapsePress = () => bottomSheetRef.current?.collapse();
-    // const snapeToIndex = (index) => bottomSheetRef.current?.snapToIndex(index);
+    }, [isStoring]);
 
     const renderBackdrop = useCallback(
         (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
@@ -52,13 +52,13 @@ const Store = () => {
                     ref={bottomSheetRef}
                     renderBackdrop={renderBackdrop}
                     indexSnapPoint={2}>
-                    <BottomSheetView>
+                    <BottomSheetScrollView>
                         {isStoring ? (
                             <Loading />
                         ) : (
                             <StoreDetail store={store} onClose={handleClose} />
                         )}
-                    </BottomSheetView>
+                    </BottomSheetScrollView>
                 </CustomBottomSheetModal>
             </ScreenWrapper>
         </ScrollView>

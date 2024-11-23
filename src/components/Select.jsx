@@ -30,8 +30,6 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     picker: {
-        paddingHorizontal: 18,
-        paddingVertical: 8,
         borderRadius: theme.radius.xxl,
     },
     pickerItem: {

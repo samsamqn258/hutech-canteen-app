@@ -8,13 +8,17 @@ import Row from '@/src/components/Row';
 
 import ButtonIcon from '@/src/components/ButtonIcon';
 import SearchInput from '@/src/components/SearchInput';
-import { router } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 const Categories = ({ categories }) => {
+    const router = useRouter();
+
     return (
-        <View className="mt-6 rounded-xl bg-white shadow-3xl p-4">
+        <View className="mt-6 rounded-xl bg-white shadow-sm p-4">
             <Row>
                 <SearchInput onPress={() => router.push('/screens/search/Search')} />
-                <ButtonIcon type="square">
+                <ButtonIcon
+                    type="square"
+                    onPress={() => router.push('/screens/favourite/FavouriteScreen')}>
                     <AntDesign name="hearto" size={24} color={theme.colors.primary} />
                 </ButtonIcon>
             </Row>

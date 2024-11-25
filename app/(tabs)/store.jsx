@@ -6,7 +6,7 @@ import useStores from '../screens/store/useStores';
 import useStore from '../screens/store/useStore';
 
 import Loading from '@/src/components/Loading';
-import { BottomSheetBackdrop, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import ScreenWrapper from '@/src/components/ScreenWrapper';
 import CustomBottomSheetModal from '@/src/components/CustomBottomSheetModal';
 import StoreDetail from '../screens/store/StoreDetail';
@@ -14,26 +14,11 @@ import StoreDetail from '../screens/store/StoreDetail';
 const Store = () => {
     const bottomSheetRef = useRef(null);
     const { stores, isPending } = useStores();
-    const [selectedShopID, setSelectedShopID] = useState('');
-    const { store, isPending: isStoring } = useStore(selectedShopID);
-
-    const handleStoreItemPress = (shopID) => {
-        setSelectedShopID(shopID);
-        if (!isStoring) {
-            bottomSheetRef.current?.present();
-        }
-    };
+    const { store, isPending: isStoring } = useStore();
 
     const handleClose = () => {
         bottomSheetRef.current?.close();
-        setSelectedShopID('');
     };
-
-    useEffect(() => {
-        if (!isStoring) {
-            bottomSheetRef.current?.present();
-        }
-    }, [isStoring]);
 
     const renderBackdrop = useCallback(
         (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
@@ -43,11 +28,14 @@ const Store = () => {
     if (isPending) return <Loading />;
 
     return (
-        <ScrollView className="bg-darkLight" showsVerticalScrollIndicator={false}>
+        <ScrollView
+            className="bg-darkLight"
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}>
             <ScreenWrapper>
                 {/* Header */}
                 <HeaderStore />
-                <Stores stores={stores} handleStoreItemPress={handleStoreItemPress} />
+                <Stores stores={stores} bottomSheetRef={bottomSheetRef} />
                 <CustomBottomSheetModal
                     ref={bottomSheetRef}
                     renderBackdrop={renderBackdrop}

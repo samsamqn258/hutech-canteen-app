@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { theme } from '@/src/constants/theme';
 import { formatCurrency } from '@/src/helpers/helpers';
@@ -8,14 +8,14 @@ import Row from '@/src/components/Row';
 import SideDishItem from './SideDishItem';
 import useAddFavourite from '@/src/features/favourite/useAddFavourite';
 import useDeleteFavourite from '@/src/features/favourite/useDeleteFavourite';
-
 import useToken from '@/src/hooks/useToken';
-import Loading from '@/src/components/Loading';
-const ProductDetail = ({ product, onClose, setIsFavourite, isFavourite }) => {
+const ProductDetail = ({ product, onClose }) => {
+    const [isFavourite, setIsFavourite] = useState(
+        product?.metaData?.product_details?.favorites_status,
+    );
     const token = useToken();
     const { addFavourite, isFavouriting } = useAddFavourite();
     const { deleteFavourite, isDeleting } = useDeleteFavourite();
-    console.log(product.metaData.product_details.product);
 
     const {
         _id: product_id,

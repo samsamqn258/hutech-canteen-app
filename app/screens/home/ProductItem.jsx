@@ -4,9 +4,14 @@ import ButtonIcon from '@/src/components/ButtonIcon';
 import { formatCurrency } from '@/src/helpers/helpers';
 import { theme } from '@/src/constants/theme';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { router } from 'expo-router';
 
-const ProductItem = ({ item, numColumn, onPress }) => {
-    const handlePress = () => onPress(item.product_id._id);
+const ProductItem = ({ item, numColumn, bottomSheetRef }) => {
+    const handlePress = () => {
+        router.setParams({ productID: item.product_id._id });
+
+        bottomSheetRef.current.present();
+    };
 
     return (
         <TouchableOpacity

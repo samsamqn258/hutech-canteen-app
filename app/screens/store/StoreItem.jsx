@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 
-const StoreItem = ({ store, onPress }) => {
+const StoreItem = ({ store, bottomSheetRef }) => {
     const {
         shop_image: shopImage,
         _id: shopID,
@@ -12,7 +12,8 @@ const StoreItem = ({ store, onPress }) => {
     } = store;
 
     const handlePress = () => {
-        onPress(shopID);
+        router.setParams({ shopID });
+        bottomSheetRef.current?.present();
     };
 
     return (

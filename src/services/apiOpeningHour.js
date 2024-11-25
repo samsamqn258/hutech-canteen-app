@@ -15,8 +15,6 @@ export const getOpeningHours = async (openHourID, token) => {
 
         const data = await res.json();
 
-        console.log(data);
-
         return data;
     } catch (e) {
         console.error('Không thể lấy được giờ hoạt động', e);

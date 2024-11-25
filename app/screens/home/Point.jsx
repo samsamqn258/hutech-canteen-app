@@ -8,10 +8,9 @@ const Point = ({ user }) => {
             start={[1, 0]}
             end={[0, 1]}
             style={{
-                flex: 1,
                 width: '100%',
                 borderRadius: 20,
-                paddingTop: 40,
+                paddingVertical: 30,
                 paddingHorizontal: 20,
                 marginTop: 16,
             }}>

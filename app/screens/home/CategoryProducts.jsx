@@ -4,18 +4,18 @@ import Loading from '@/src/components/Loading';
 import { Text, View } from 'react-native';
 import Products from './Products';
 
-const CategoryProducts = ({ categoryId, onOpenModalProduct }) => {
+const CategoryProducts = ({ categoryId, bottomSheetRef }) => {
     const { isPending, products } = useProductsInCategory(categoryId);
 
     if (isPending) return <Loading />;
 
     return (
-        <View className="mt-10 px-4 ">
+        <View className="mt-10">
             <Text className="text-xl font-bold">{products.metaData.category_name}</Text>
             <Products
                 products={products.metaData.products}
                 numColumn={2}
-                onOpenModalProduct={onOpenModalProduct}
+                bottomSheetRef={bottomSheetRef}
             />
         </View>
     );

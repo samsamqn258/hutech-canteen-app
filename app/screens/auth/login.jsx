@@ -16,9 +16,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Error from '@/src/components/Error';
 import useLogin from '../../../src/features/auth/useLogin';
-import useStores from '../store/useStores';
+
 import Loading from '@/src/components/Loading';
 import Input from '@/src/components/Input';
+import useStores from '../store/useStores';
 
 // Schema
 const validationSchema = Yup.object().shape({
@@ -29,7 +30,7 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
     const router = useRouter();
     const { stores, isPending } = useStores();
-    const [selectedShop, setSelectedShop] = useState(stores?.metaData[0]?._id || '');
+    const [selectedShop, setSelectedShop] = useState('');
     const { login, isPending: isLogin } = useLogin();
     const isLoading = isLogin || isPending;
 

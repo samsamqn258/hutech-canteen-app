@@ -12,7 +12,7 @@ const CustomBottomSheetModal = forwardRef(
                 index={indexSnapPoint}
                 backdropComponent={renderBackdrop}
                 snapPoints={snapPoints}
-                enablePanDownToClose={true}
+                enablePanDownToClose={false}
                 backgroundStyle={{ backgroundColor: bg }}
 
                 // handleIndicatorStyle={{ backgroundColor: '#fff' }}

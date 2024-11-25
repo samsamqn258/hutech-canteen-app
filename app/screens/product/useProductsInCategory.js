@@ -6,7 +6,7 @@ export default function useProductsInCategory(categoryID) {
 
     const { isPending, data: products } = useQuery({
         queryFn: () => getProductsInCategory(categoryID, token),
-        queryKey: ['productsInCategory', categoryID],
+        queryKey: ['products', categoryID],
     });
 
     return { isPending, products };

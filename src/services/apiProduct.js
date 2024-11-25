@@ -11,18 +11,19 @@ export const getProductsInCategory = async (categoryID, token) => {
             },
         });
 
-        if (!res.ok) throw Error('API_URL đã sai');
+        if (!res.ok) throw new Error('API_URL đã sai');
 
         const data = await res.json();
 
         return data;
     } catch (err) {
         console.error('Không lấy được danh sách sản phẩm trong danh mục');
-        throw Error('Không lấy được danh sách sản phẩm trong danh mục');
+        throw new Error('Không lấy được danh sách sản phẩm trong danh mục');
     }
 };
 
 export const getProduct = async (productID, token) => {
+    console.log(productID, token);
     try {
         const res = await fetch(`${API_URL}/getProductById/${productID}`, {
             method: 'GET',
@@ -32,10 +33,10 @@ export const getProduct = async (productID, token) => {
             },
         });
 
-        if (!res.ok) throw Error('API_URL đã sai');
+        if (!res.ok) throw new Error('API_URL đã sai');
 
         const data = await res.json();
-        console.log(data);
+        console.log('dữ liệu từ API', data);
         return data;
     } catch (err) {
         console.error('Không lấy được sản phẩm', err);

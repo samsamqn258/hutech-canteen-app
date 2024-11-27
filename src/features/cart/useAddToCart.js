@@ -4,7 +4,7 @@ import { addToCart as addToCartApi } from '../../services/apiShoppingCart';
 export default function useAddToCart() {
     const { mutate: addToCart, isPending: isAdding } = useMutation({
         mutationFn: addToCartApi,
-        mutationKey: ['cart', 'add'],
+        mutationKey: ['carts', 'add'],
         onSuccess: (cart, product) => {
             Toast.show({ type: 'success', text1: 'Thêm vào giỏ hàng thành công' });
         },

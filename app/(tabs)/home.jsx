@@ -45,10 +45,10 @@ const calculateTotalPrice = (product, sideDishIDs, quantity) => {
 const Home = () => {
     const bottomSheetRef = useRef(null);
     const user = useSelector((state) => state.auth.user.metaData.user);
-    const token = useToken();
-    const { productID } = useLocalSearchParams();
     const { categories, isPending: isCategoriesLoading } = useCategories();
     const { product, isPending: isProductLoading } = useProduct();
+    const token = useToken();
+    const { productID } = useLocalSearchParams();
     const [sideDishID, setSideDishID] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const [checked, setChecked] = useState({});
@@ -134,7 +134,7 @@ const Home = () => {
                 <CustomBottomSheetModal
                     ref={bottomSheetRef}
                     renderBackdrop={renderBackdrop}
-                    indexSnapPoint={4}
+                    indexSnapPoint={3}
                     bg="#f5f5f5">
                     {isProductLoading ? (
                         <Loading />

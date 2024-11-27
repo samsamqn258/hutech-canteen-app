@@ -4,9 +4,8 @@ import { canGoBack } from 'expo-router/build/global-state/routing';
 const API_URL = `${API_BASE_URL}/cart`;
 
 export const addToCart = async (newProduct) => {
-    console.log(newProduct);
     const { productID: product_id, quantity, sideDishID: sideDish_ids, token } = newProduct;
-    console.log(product_id, quantity, sideDish_ids);
+
     try {
         const res = await fetch(`${API_URL}/addToCart`, {
             method: 'POST',
@@ -22,6 +21,28 @@ export const addToCart = async (newProduct) => {
     } catch (e) {
         console.error('Không thể thêm vào giỏ hàng', e);
         throw new Error('Không thể thêm vào giỏ hàng', e);
+    }
+};
+
+export const deleteFromCart = async (product) => {
+    const { productID: product_id, token, sideDishesID: sideDish_ids } = product;
+
+    try {
+        const res = await fetch(`${API_URL}/removeProductFromCart`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+            body: JSON.stringify({ product_id, sideDish_ids }),
+        });
+        if (!res.ok) throw Error('API_URL đã sai');
+        const data = await res.json();
+        console.log(data);
+        return data;
+    } catch (e) {
+        console.error('Không thể xóa vào giỏ hàng', e);
+        throw new Error('Không thể xóa vào giỏ hàng', e);
     }
 };
 

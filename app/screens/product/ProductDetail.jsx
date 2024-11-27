@@ -9,7 +9,7 @@ import SideDishItem from './SideDishItem';
 import useAddFavourite from '@/src/features/favourite/useAddFavourite';
 import useDeleteFavourite from '@/src/features/favourite/useDeleteFavourite';
 import useToken from '@/src/hooks/useToken';
-const ProductDetail = ({ product, onClose }) => {
+const ProductDetail = ({ product, onClose, handleToggleCheck, checked }) => {
     const [isFavourite, setIsFavourite] = useState(
         product?.metaData?.product_details?.favorites_status,
     );
@@ -86,7 +86,12 @@ const ProductDetail = ({ product, onClose }) => {
                     <Text className="text-xl font-semibold">Lựa chọn thêm</Text>
                     <View className="flex flex-col gap-4 mt-8">
                         {sideDish_id?.map((sideDish) => (
-                            <SideDishItem key={sideDish._id} sideDish={sideDish} />
+                            <SideDishItem
+                                key={sideDish._id}
+                                sideDish={sideDish}
+                                checked={!!checked[sideDish._id]}
+                                onToggleCheck={() => handleToggleCheck(sideDish._id)}
+                            />
                         ))}
                     </View>
                 </View>

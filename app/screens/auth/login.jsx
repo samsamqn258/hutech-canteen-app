@@ -25,23 +25,17 @@ import useStores from '../store/useStores';
 const validationSchema = Yup.object().shape({
     email: Yup.string().required('Vui lòng nhập email').email().label('Email'),
     password: Yup.string().required('Vui lòng nhập mật khẩu').min(6).label('Mật khẩu'),
+    area: Yup.string().required('Vui lòng chọn khu vực'),
 });
 
 const Login = () => {
     const router = useRouter();
     const { stores, isPending } = useStores();
-    const [selectedShop, setSelectedShop] = useState('');
     const { login, isPending: isLogin } = useLogin();
     const isLoading = isLogin || isPending;
 
     if (isLoading) return <Loading />;
 
-    const shopOptions = stores?.metaData?.map((store) => ({
-        label: store.shop_name,
-        value: store._id,
-    }));
-
-    console.log(selectedShop);
     return (
         <ScreenWrapper bg="white">
             <StatusBar style="dark" />
@@ -56,12 +50,13 @@ const Login = () => {
                     initialValues={{
                         email: 'toan@gmail.com',
                         password: '123456',
+                        area: '',
                     }}
                     onSubmit={(values) =>
                         login({
                             email: values.email,
                             password: values.password,
-                            selectedShop,
+                            selectedShop: values.area,
                         })
                     }
                     validationSchema={validationSchema}>
@@ -117,20 +112,18 @@ const Login = () => {
                                 )}
                             </View>
 
-                            <Text
-                                style={{
-                                    fontSize: hp(1.6),
-                                    color: theme.colors.text,
-                                    fontWeight: theme.fonts.semibold,
-                                }}>
-                                Vui lòng chọn địa chỉ căn tin
-                            </Text>
-
                             <Select
-                                options={shopOptions}
-                                onChange={(value) => setSelectedShop(value)}
-                                value={selectedShop}
+                                options={[
+                                    { label: 'Chọn khu vực', value: '' },
+                                    ...(stores?.metaData?.map((store) => ({
+                                        label: store.shop_name,
+                                        value: store._id,
+                                    })) || []),
+                                ]}
+                                onChange={handleChange('area')}
+                                value={values.area}
                             />
+                            {errors.area && touched.area && <Error error={errors.area} />}
 
                             <Pressable onPress={() => router.push('/screens/auth/forgotPassword')}>
                                 <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>

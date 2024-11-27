@@ -12,6 +12,5 @@ export default function useProduct() {
         enabled: !!productID,
     });
 
-    console.log('Dữ liệu từ react query', product);
     return { product, isPending };
 }

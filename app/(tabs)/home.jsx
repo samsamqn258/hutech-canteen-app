@@ -1,5 +1,5 @@
 import { FlatList, ScrollView, Text, View } from 'react-native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useCategories from '../screens/category/useCategories';
 import useAddToCart from '@/src/features/cart/useAddToCart';
@@ -17,19 +17,63 @@ import CustomBottomSheetModal from '@/src/components/CustomBottomSheetModal';
 import ProductDetail from '../screens/product/ProductDetail';
 import Button from '@/src/components/Button';
 import { formatCurrency } from '@/src/helpers/helpers';
+import ButtonIcon from '@/src/components/ButtonIcon';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { theme } from '@/src/constants/theme';
+import useToken from '@/src/hooks/useToken';
+import { router, useLocalSearchParams } from 'expo-router';
+
+// Hàm tính tổng giá
+const calculateTotalPrice = (product, sideDishIDs, quantity) => {
+    if (!product || !product.metaData?.product_details?.product) {
+        return 0;
+    }
+    const { product_price, sideDish_id } = product?.metaData.product_details.product;
+
+    // Lọc các món phụ được chọn
+    const selectedSideDishes = sideDish_id.filter((dish) => sideDishIDs.includes(dish._id));
+
+    // Tính tổng giá tiền của các món phụ
+    const sideDishesPrice = selectedSideDishes.reduce((total, dish) => total + dish.price, 0);
+
+    // Tính tổng giá sản phẩm
+    const totalPrice = (product_price + sideDishesPrice) * quantity;
+
+    return totalPrice;
+};
 
 const Home = () => {
     const bottomSheetRef = useRef(null);
     const user = useSelector((state) => state.auth.user.metaData.user);
+    const token = useToken();
+    const { productID } = useLocalSearchParams();
     const { categories, isPending: isCategoriesLoading } = useCategories();
     const { product, isPending: isProductLoading } = useProduct();
     const [sideDishID, setSideDishID] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+    const [checked, setChecked] = useState({});
     const { addToCart, isAdding } = useAddToCart();
 
-    const [quantity, setQuantity] = useState(1);
+    const totalPrice = useMemo(
+        () => calculateTotalPrice(product, sideDishID, quantity),
+        [product, sideDishID, quantity],
+    );
+
+    const handleAddToCart = () => {
+        addToCart(
+            { productID, sideDishID, quantity, token },
+            {
+                onSettled: () => {
+                    setSideDishID([]);
+                    setQuantity(1);
+                    setChecked({});
+                },
+            },
+        );
+    };
 
     const handleDecrease = () => {
-        if (quantity > 0) {
+        if (quantity > 1) {
             setQuantity((quantity) => quantity - 1);
         }
     };
@@ -39,7 +83,20 @@ const Home = () => {
     };
 
     const handleClose = () => {
+        setSideDishID([]);
+        setQuantity(1);
+        setChecked({});
         bottomSheetRef.current?.close();
+    };
+
+    const handleToggleCheck = (id) => {
+        setChecked((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+        setSideDishID((prev) =>
+            !checked[id] ? [...prev, id] : prev.filter((sideDishId) => sideDishId !== id),
+        );
     };
 
     const renderBackdrop = useCallback(
@@ -84,7 +141,12 @@ const Home = () => {
                     ) : (
                         <View className="flex-1 relative">
                             <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 90 }}>
-                                <ProductDetail product={product} onClose={handleClose} />
+                                <ProductDetail
+                                    product={product}
+                                    onClose={handleClose}
+                                    handleToggleCheck={handleToggleCheck}
+                                    checked={checked}
+                                />
                             </BottomSheetScrollView>
                             <View className="absolute bottom-0 right-0 left-0 bg-white border-t-[1px] border-t-gray pt-2 pb-8 px-4 flex flex-row gap-10 items-center">
                                 <View className="flex flex-row gap-4 items-center">
@@ -105,8 +167,10 @@ const Home = () => {
                                     </ButtonIcon>
                                 </View>
                                 <Button
-                                    title={`Chọn - ${formatCurrency(product.metaData.product_details.product.product_price)}`}
+                                    onPress={handleAddToCart}
+                                    title={`Chọn - ${formatCurrency(totalPrice)}`}
                                     buttonStyle={{ flex: 1 }}
+                                    loading={isAdding}
                                 />
                             </View>
                         </View>

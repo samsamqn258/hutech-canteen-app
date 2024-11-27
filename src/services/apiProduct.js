@@ -36,7 +36,6 @@ export const getProduct = async (productID, token) => {
         if (!res.ok) throw new Error('API_URL đã sai');
 
         const data = await res.json();
-        console.log('dữ liệu từ API', data);
         return data;
     } catch (err) {
         console.error('Không lấy được sản phẩm', err);

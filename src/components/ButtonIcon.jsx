@@ -1,7 +1,7 @@
 import { Pressable } from 'react-native';
 import React from 'react';
 
-const ButtonIcon = ({ children, type, onPress }) => {
+const ButtonIcon = ({ children, type, onPress, disabled }) => {
     const base = 'pr-3 pl-3 shadow-sm flex item-center justify-center ';
     const styles = {
         rounded: base + ' bg-white rounded-full pt-2 pb-2',
@@ -10,7 +10,7 @@ const ButtonIcon = ({ children, type, onPress }) => {
     };
 
     return (
-        <Pressable className={styles[type]} onPress={onPress}>
+        <Pressable className={styles[type]} onPress={onPress} disabled={disabled}>
             {children}
         </Pressable>
     );

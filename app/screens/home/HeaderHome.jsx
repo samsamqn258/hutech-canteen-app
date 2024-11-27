@@ -8,6 +8,7 @@ import { theme } from '../../../src/constants/theme';
 import Row from '../../../src/components/Row';
 import ButtonIcon from '../../../src/components/ButtonIcon';
 import Header from '../../../src/components/Header';
+import { router } from 'expo-router';
 
 const HeaderHome = ({ user }) => {
     return (
@@ -23,13 +24,13 @@ const HeaderHome = ({ user }) => {
             </Row>
             <Row>
                 <ButtonIcon type="rounded">
+                    <Feather name="bell" size={22} color="black" />
+                </ButtonIcon>
+                <ButtonIcon type="rounded" onPress={() => router.push('/screens/cart/CartScreen')}>
                     <Row>
-                        <AntDesign name="tagso" size={24} color={theme.colors.primary} />
+                        <AntDesign name="shoppingcart" size={24} color={theme.colors.primary} />
                         <Text className="text-dark font-semibold text-lg">8</Text>
                     </Row>
-                </ButtonIcon>
-                <ButtonIcon type="rounded">
-                    <Feather name="bell" size={22} color="black" />
                 </ButtonIcon>
             </Row>
         </Header>

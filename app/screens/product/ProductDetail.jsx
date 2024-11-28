@@ -35,6 +35,7 @@ const ProductDetail = ({ product, onClose, handleToggleCheck, checked }) => {
         action({ token, product_id });
         setIsFavourite(!isFavourite);
     };
+    console.log(isFavourite);
 
     return (
         <View>

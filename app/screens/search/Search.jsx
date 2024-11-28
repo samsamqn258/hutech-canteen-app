@@ -6,6 +6,7 @@ import SearchInput from '@/src/components/SearchInput';
 import Row from '@/src/components/Row';
 import { router, usePathname } from 'expo-router';
 import Products from '../home/Products';
+import Empty from '@/src/components/Empty';
 
 export default function Search() {
     const pathname = usePathname();
@@ -16,6 +17,7 @@ export default function Search() {
         if (pathname.startsWith('/screens/search')) router.setParams({ query: e });
         setQuery(e);
     };
+
     if (!products)
         return (
             <View className="pr-5 pl-5 bg-white h-full pt-16">
@@ -34,6 +36,25 @@ export default function Search() {
 
     if (isPending) return <Loading />;
 
+    if (!products.metaData.products)
+        return (
+            <View className=" px-5 bg-white h-full py-16">
+                <View className="border-b-[1px] border-gray pb-4">
+                    <Row>
+                        <SearchInput onChange={handleChange} value={query} />
+                        <Text
+                            className="text-base text-primary font-semibold"
+                            onPress={router.back}>
+                            Hủy
+                        </Text>
+                    </Row>
+                </View>
+                <View className="mt-10">
+                    <Empty title="Không tìm thấy sản phẩm" />
+                </View>
+            </View>
+        );
+
     return (
         <View className=" px-5 bg-white h-full py-16">
             <View className="border-b-[1px] border-gray pb-4">
@@ -45,7 +66,7 @@ export default function Search() {
                 </Row>
             </View>
             <View>
-                <Products products={products.metaData.products} numColumn={1} />
+                <Products products={products?.metaData?.products} numColumn={1} />
             </View>
         </View>
     );

@@ -40,28 +40,17 @@ const CartItem = ({ cart }) => {
     };
 
     const renderRightActions = () => (
-        <View className="flex flex-row">
-            <View className="flex flex-row gap-2 items-center bg-darkLight p-2 ">
-                <ButtonIcon disabled={isDecreasing} onPress={handleDecrease}>
-                    <AntDesign name="minuscircle" size={20} color={theme.colors.primary} />
-                </ButtonIcon>
-                <Text className="text-sm font-medium">{quantity}</Text>
-                <ButtonIcon disabled={isIncreasing} onPress={handleIncrease}>
-                    <AntDesign name="pluscircle" size={20} color={theme.colors.primary} />
-                </ButtonIcon>
-            </View>
-            <View className="flex flex-row gap-2 items-center bg-red-500 p-2 w-20 justify-center">
-                <ButtonIcon onPress={() => setModalVisible(true)}>
-                    <FontAwesome name="trash" size={24} color="white" />
-                </ButtonIcon>
-            </View>
+        <View className="flex flex-row gap-2 items-center bg-red-500 p-2 w-20 justify-center">
+            <ButtonIcon onPress={() => setModalVisible(true)}>
+                <FontAwesome name="trash" size={24} color="white" />
+            </ButtonIcon>
         </View>
     );
 
     return (
-        <>
+        <View className="flex-1 relative">
             <Swipeable renderRightActions={renderRightActions}>
-                <View className="w-full bg-white shadow-sm rounded-md p-4 flex flex-row gap-4 justify-between items-center">
+                <View className="w-full bg-darkLight rounded-md   p-4 flex flex-row gap-4 justify-between ">
                     <View className="flex flex-row gap-4 items-center">
                         <Image source={{ uri: productThumb }} className="w-20 h-20" />
                         <View>
@@ -78,9 +67,29 @@ const CartItem = ({ cart }) => {
                             ))}
                         </View>
                     </View>
-                    <Text className="text-text text-sm">{formatCurrency(totalPrice)}</Text>
+                    <View className="flex flex-col items-center justify-around">
+                        <Text className="text-text text-sm">{formatCurrency(totalPrice)}</Text>
+                        <View className="flex flex-row gap-3 items-center  ">
+                            <ButtonIcon disabled={isDecreasing} onPress={handleDecrease}>
+                                <AntDesign
+                                    name="minuscircle"
+                                    size={20}
+                                    color={theme.colors.primary}
+                                />
+                            </ButtonIcon>
+                            <Text className="text-sm font-medium">{quantity}</Text>
+                            <ButtonIcon disabled={isIncreasing} onPress={handleIncrease}>
+                                <AntDesign
+                                    name="pluscircle"
+                                    size={20}
+                                    color={theme.colors.primary}
+                                />
+                            </ButtonIcon>
+                        </View>
+                    </View>
                 </View>
             </Swipeable>
+            <View className=""></View>
 
             {/* Modal Xác Nhận */}
             <Modal
@@ -110,7 +119,7 @@ const CartItem = ({ cart }) => {
                     </View>
                 </View>
             </Modal>
-        </>
+        </View>
     );
 };
 

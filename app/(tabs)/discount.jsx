@@ -110,7 +110,7 @@ const Discount = () => {
                     </View>
                     <View className="mt-8">
                         <Text className="text-2xl font-semibold">Phiếu ưu đãi của bạn</Text>
-                        <Discounts discount={discounts} bottomSheetRef={bottomSheetRef} />
+                        <Discounts discounts={discounts} bottomSheetRef={bottomSheetRef} />
                     </View>
                     <CustomBottomSheetModal
                         ref={bottomSheetRef}

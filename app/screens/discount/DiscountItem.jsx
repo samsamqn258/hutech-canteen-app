@@ -10,6 +10,9 @@ const DiscountItem = ({ discount, bottomSheetRef }) => {
         maximum_discount_value,
         min_order_value,
         message,
+        discount_value,
+        discount_value_type,
+        remainingUses,
     } = discount;
 
     const handlePress = () => {
@@ -37,11 +40,17 @@ const DiscountItem = ({ discount, bottomSheetRef }) => {
                 <Image source={{ uri: discount_image }} className="h-14 w-20 object-cover" />
             </View>
             <View className="flex flex-col justify-between">
-                <Text className="w-56 text-xl font-light">
-                    Giảm tối đa {formatCurrency(maximum_discount_value)} cho đơn từ{' '}
+                <Text className="w-52 text-base text-text  font-medium">
+                    Giảm {discount_value}
+                    {discount_value_type && '%'} Giảm tối đa{' '}
+                    {formatCurrency(maximum_discount_value)} cho đơn từ{' '}
                     {formatCurrency(min_order_value)}
                 </Text>
                 <Text className="text-text text-lg font-medium">{message}</Text>
+            </View>
+            <View className="absolute border-t-transparent border-x-transparent  border-4 border-primary top-7 rotate-90 right-[-8px]"></View>
+            <View className="absolute w-12 h-6 rounded-l-full bg-secondary top-2 right-[-4px] flex items-center justify-center">
+                <Text className="text-primary text-sm font-bold">X {remainingUses}</Text>
             </View>
         </Pressable>
     );

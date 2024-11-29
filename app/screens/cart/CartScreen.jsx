@@ -18,17 +18,7 @@ const CartScreen = () => {
 
     if (isPending) return <Loading />;
 
-    const totalProductQuantity = carts.metaData.cart_products.reduce(
-        (acc, cur) => acc + cur.quantity,
-        0,
-    );
-
-    const totalProductPrice = carts.metaData.cart_products.reduce(
-        (acc, cur) => acc + cur.totalPrice,
-        0,
-    );
-
-    if (!carts.metaData.cart_products.length)
+    if (!carts.metaData)
         return (
             <ScreenWrapper bg="white">
                 <View className="flex flex-row items-center px-5 border-b-2 pb-3 mx-[-20px] border-gray">
@@ -39,6 +29,15 @@ const CartScreen = () => {
             </ScreenWrapper>
         );
 
+    const totalProductQuantity = carts.metaData.cart_products.reduce(
+        (acc, cur) => acc + cur.quantity,
+        0,
+    );
+
+    const totalProductPrice = carts.metaData.cart_products.reduce(
+        (acc, cur) => acc + cur.totalPrice,
+        0,
+    );
     return (
         <>
             <ScrollView

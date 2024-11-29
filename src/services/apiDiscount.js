@@ -1,9 +1,15 @@
 import { API_BASE_URL } from '../../src/constants/url';
 const API_URL = `${API_BASE_URL}/discount`;
 
-export const getDiscounts = async () => {
+export const getDiscounts = async (token) => {
     try {
-        const res = await fetch(`${API_URL}/getValidDiscounts`);
+        const res = await fetch(`${API_URL}/getValidDiscounts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+        });
         if (!res.ok) {
             throw new Error('API_URL đã sai');
         }
@@ -17,7 +23,7 @@ export const getDiscounts = async () => {
 
 export const getDiscount = async (discountID, token) => {
     try {
-        const res = await fetch(`${API_URL}/getDiscountById/${discountID}`, {
+        const res = await fetch(`${API_URL}/getDiscountByIdForUser/${discountID}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -147,8 +147,8 @@ export default SignUp;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: 45,
-        marginTop: hp(2),
+        gap: 30,
+        marginTop: 10,
         paddingHorizontal: wp(5),
     },
     welcomeText: {

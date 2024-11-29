@@ -48,9 +48,9 @@ const CartItem = ({ cart }) => {
     );
 
     return (
-        <View className="flex-1 relative">
+        <View className="flex-1 relative h-full">
             <Swipeable renderRightActions={renderRightActions}>
-                <View className="w-full bg-darkLight rounded-md   p-4 flex flex-row gap-4 justify-between ">
+                <View className="w-full rounded-md bg-white p-4 flex flex-row gap-4 justify-between ">
                     <View className="flex flex-row gap-4 items-center">
                         <Image source={{ uri: productThumb }} className="w-20 h-20" />
                         <View>
@@ -89,7 +89,6 @@ const CartItem = ({ cart }) => {
                     </View>
                 </View>
             </Swipeable>
-            <View className=""></View>
 
             {/* Modal Xác Nhận */}
             <Modal

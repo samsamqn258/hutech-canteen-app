@@ -134,7 +134,7 @@ const Home = () => {
                 <CustomBottomSheetModal
                     ref={bottomSheetRef}
                     renderBackdrop={renderBackdrop}
-                    indexSnapPoint={3}
+                    indexSnapPoint={4}
                     bg="#f5f5f5">
                     {isProductLoading ? (
                         <Loading />
@@ -169,7 +169,8 @@ const Home = () => {
                                 <Button
                                     onPress={handleAddToCart}
                                     title={`Chọn - ${formatCurrency(totalPrice)}`}
-                                    buttonStyle={{ flex: 1 }}
+                                    buttonStyle={{ flex: 1, height: 46, borderRadius: 10 }}
+                                    textStyle={{ fontSize: 16 }}
                                     loading={isAdding}
                                 />
                             </View>

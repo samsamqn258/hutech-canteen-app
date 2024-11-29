@@ -41,7 +41,6 @@ const Login = () => {
             <StatusBar style="dark" />
             <View style={styles.container}>
                 <BackButton router={router} />
-
                 <View>
                     <Text style={styles.welcomeText}>Chào,</Text>
                     <Text style={styles.welcomeText}>Bạn Đã Trở Lại</Text>
@@ -157,8 +156,8 @@ export default Login;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: 40,
-        marginTop: hp(2),
+        gap: 30,
+        marginTop: 10,
         paddingHorizontal: wp(5),
     },
     welcomeText: {

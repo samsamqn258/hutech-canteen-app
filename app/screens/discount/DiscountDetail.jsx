@@ -3,13 +3,15 @@ import React from 'react';
 import { formatCurrency } from '@/src/helpers/helpers';
 import QRCodeUI from '@/src/components/QRCodeUI';
 import Toast from 'react-native-toast-message';
-import Button from '@/src/components/Button';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import ButtonIcon from '@/src/components/ButtonIcon';
 
-const DiscountDetail = ({ discount }) => {
+const DiscountDetail = ({ discount, handleApplyDiscount, onCloseIn }) => {
     const {
         discount_name,
         discount_content,
-        discount_code,
+        discount_code: discountCode,
         discount_value,
         discount_value_type,
         min_order_value,
@@ -21,18 +23,29 @@ const DiscountDetail = ({ discount }) => {
     } = discount.metaData;
 
     const handleCopyDiscountCode = () => {
-        Clipboard.setString(discount_code);
+        Clipboard.setString(discountCode);
         Toast.show({
             type: 'success',
-            text1: `Mã ${discount_code} đã được sao chép!`,
+            text1: `Mã ${discountCode} đã được sao chép!`,
         });
     };
+
     return (
         <>
-            <View className="flex flex-cols items-center">
+            <View className="flex flex-row justify-between items-center ">
+                <ButtonIcon onPress={onCloseIn}>
+                    <MaterialIcons name="arrow-back-ios" size={22} color="black" />
+                </ButtonIcon>
+
                 <Text className="text-base font-semibold text-text text-center">
+                    {' '}
                     HUTECH CANTEEN
                 </Text>
+                <ButtonIcon onPress={onCloseIn}>
+                    <AntDesign name="close" size={22} color="black" />
+                </ButtonIcon>
+            </View>
+            <View className="flex flex-cols items-center">
                 <Text
                     className="text-2xl font-semibold text-center my-0 mx-auto mt-4
                 ">
@@ -41,12 +54,17 @@ const DiscountDetail = ({ discount }) => {
                 </Text>
 
                 <View className="mt-10 flex flex-col items-center">
-                    <QRCodeUI value={discount_code} />
-                    <Text className="mt-4 text-text font-semibold">{discount_code}</Text>
+                    <QRCodeUI value={discountCode} />
+                    <Text className="mt-4 text-text font-semibold">{discountCode}</Text>
                     <Pressable className="mt-1" onPress={handleCopyDiscountCode}>
                         <Text className="text-blue-500 font-medium text-lg">Sao chép</Text>
                     </Pressable>
-                    <Pressable className="mt-8 bg-slate-950 py-4  px-8 rounded-full">
+                    <Pressable
+                        className="mt-8 bg-slate-950 py-4  px-8 rounded-full"
+                        onPress={() => {
+                            handleApplyDiscount(discountCode);
+                            onCloseIn();
+                        }}>
                         <Text className="text-white text-lg font-semibold">Sử dụng ngay</Text>
                     </Pressable>
                 </View>

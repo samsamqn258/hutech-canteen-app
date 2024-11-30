@@ -2,7 +2,8 @@ import { API_BASE_URL } from '../../src/constants/url';
 
 const API_URL = `${API_BASE_URL}/order`;
 
-export const checkoutPreview = async (token) => {
+export const checkoutPreview = async (token, discountCode) => {
+    console.log(token, discountCode);
     try {
         const res = await fetch(`${API_URL}/checkoutPreview`, {
             method: 'POST',
@@ -10,6 +11,9 @@ export const checkoutPreview = async (token) => {
                 'Content-Type': 'application/json',
                 Authorization: token,
             },
+            body: JSON.stringify({
+                discount_code: discountCode,
+            }),
         });
 
         if (!res.ok) throw Error('API_URL đã sai');

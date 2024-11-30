@@ -29,6 +29,17 @@ const CartScreen = () => {
             </ScreenWrapper>
         );
 
+    if (!carts.metaData.cart_products.length)
+        return (
+            <ScreenWrapper bg="white">
+                <View className="flex flex-row items-center px-5 border-b-2 pb-3 mx-[-20px] border-gray">
+                    <BackButton router={router} />
+                    <Text className="my-0 mx-auto text-xl font-semibold">Giỏ Hàng Của Bạn</Text>
+                </View>
+                <Empty title="Bạn chưa có sản phẩm nào trong giỏ hàng." />
+            </ScreenWrapper>
+        );
+
     const totalProductQuantity = carts.metaData.cart_products.reduce(
         (acc, cur) => acc + cur.quantity,
         0,

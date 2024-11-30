@@ -1,9 +1,10 @@
 import { View, Text, ScrollView, Image, Pressable, TextInput } from 'react-native';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import ScreenWrapper from '@/src/components/ScreenWrapper';
 import BackButton from '@/src/components/BackButton';
 import { useRouter } from 'expo-router';
 import useCheckoutPreview from '@/src/features/order/useCheckoutPreview';
+import useCheckoutUseDiscount from '@/src/features/order/useCheckoutUseDiscount';
 import Loading from '@/src/components/Loading';
 import OrderConfirmItem from './OrderConfirmItem';
 import { formatCurrency } from '@/src/helpers/helpers';
@@ -14,17 +15,14 @@ import { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet
 import useDiscounts from '@/src/features/discount/useDiscounts';
 import Discounts from '../discount/Discounts';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import SearchInput from '@/src/components/SearchInput';
+import SelectDiscount from '../discount/SelectDiscount';
+import useDiscount from '@/src/features/discount/useDiscount';
 const OrderConfirm = () => {
     const bottomSheetRef = useRef(null);
     const router = useRouter();
     const { orders, isPending } = useCheckoutPreview();
     const { discounts, isPending: isDiscounting } = useDiscounts();
-
-    const handleClose = () => {
-        bottomSheetRef.current?.close();
-    };
-
+    const { discount, isDiscounting: isLoading } = useDiscount();
     const handleOpen = () => {
         bottomSheetRef.current?.present();
     };
@@ -33,10 +31,10 @@ const OrderConfirm = () => {
         (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
         [],
     );
-
+    console.log(orders);
     if (isPending) return <Loading />;
 
-    const { totalPrice, totalMinutes, finalPrice } = orders.metaData;
+    const { totalPrice, totalMinutes, finalPrice, totalDiscount } = orders.metaData;
 
     return (
         <ScrollView className="bg-darkLight" showsVerticalScrollIndicator={false}>
@@ -64,13 +62,24 @@ const OrderConfirm = () => {
                         <Text className="text-lg text-text ">{totalMinutes} phút</Text>
                     </View>
 
-                    <Pressable
-                        className="flex flex-row items-center justify-between  border-b-[1px] border-b-gray pb-4"
-                        onPress={handleOpen}>
-                        <Text className="text-lg text-blue-500 ">Chọn khuyến mãi/đổi bean</Text>
+                    {totalDiscount === 0 ? (
+                        <Pressable
+                            className="flex flex-row items-center justify-between  border-b-[1px] border-b-gray pb-4"
+                            onPress={handleOpen}>
+                            <Text className="text-lg text-blue-500 ">Chọn khuyến mãi/đổi bean</Text>
 
-                        <MaterialIcons name="arrow-forward-ios" size={10} color="black" />
-                    </Pressable>
+                            <MaterialIcons name="arrow-forward-ios" size={10} color="black" />
+                        </Pressable>
+                    ) : (
+                        <Pressable
+                            className="flex flex-row items-center justify-between  border-b-[1px] border-b-gray pb-4"
+                            onPress={handleOpen}>
+                            <Text className="text-lg text-blue-500 ">Khuyến mãi</Text>
+
+                            <Text>-{formatCurrency(totalDiscount)}</Text>
+                        </Pressable>
+                    )}
+
                     <View className="flex flex-row items-center justify-between ">
                         <Text className="text-lg font-bold ">Số tiền thanh toán</Text>
                         <Text className="text-lg font-bold">{formatCurrency(finalPrice)}</Text>
@@ -103,32 +112,12 @@ const OrderConfirm = () => {
                     {isDiscounting ? (
                         <Loading />
                     ) : (
-                        <View>
-                            <View className="flex flex-row justify-between items-center ">
-                                <ButtonIcon onPress={handleClose}>
-                                    <MaterialIcons name="arrow-back-ios" size={20} color="black" />
-                                </ButtonIcon>
-
-                                <Text className="text-2xl font-medium">Nhập mã khuyến mãi</Text>
-                                <ButtonIcon onPress={handleClose}>
-                                    <AntDesign name="close" size={20} color="black" />
-                                </ButtonIcon>
-                            </View>
-
-                            <View
-                                className="flex flex-row  mt-8 
-                            ">
-                                <TextInput
-                                    placeholder="Nhập mã khuyến mãi"
-                                    className="flex-1  text-black  bg-white  rounded-l-lg items-center justify-center p-5"
-                                />
-                                <Pressable className=" bg-primary p-5 rounded-r-lg justify-center items-center ">
-                                    <Text className="text-white font-semibold">Áp dụng</Text>
-                                </Pressable>
-                            </View>
-                            <Text className="mt-10 text-xl font-bold">Sẵn sàng sử dụng</Text>
-                            <Discounts discounts={discounts} bottomSheetRef={bottomSheetRef} />
-                        </View>
+                        <SelectDiscount
+                            discounts={discounts}
+                            bottomSheetRef={bottomSheetRef}
+                            discount={discount}
+                            isLoading={isLoading}
+                        />
                     )}
                 </BottomSheetScrollView>
             </CustomBottomSheetModal>

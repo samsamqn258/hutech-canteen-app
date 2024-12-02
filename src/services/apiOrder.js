@@ -16,11 +16,15 @@ export const checkoutPreview = async (token, discountCode) => {
             }),
         });
 
+        if (res.status === 403) throw new Error('Mã giảm giá không hợp lệ');
+
         if (!res.ok) throw Error('API_URL đã sai');
+
         const data = await res.json();
+
         return data;
     } catch (e) {
-        console.error('Không thể checkout thành công');
-        throw new Error('Không thể checkout thành công');
+        // console.error('Không thể checkout thành công');
+        throw new Error(e);
     }
 };

@@ -24,10 +24,7 @@ const Select = ({ value, options, onChange }) => {
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
-        borderColor: theme.colors.text,
-        borderRadius: theme.radius.xxl,
-        overflow: 'hidden',
+        borderWidth: 0,
     },
     picker: {
         borderRadius: theme.radius.xxl,

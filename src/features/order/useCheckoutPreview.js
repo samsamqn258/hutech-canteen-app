@@ -5,9 +5,8 @@ import { useLocalSearchParams } from 'expo-router';
 export default function useCheckoutPreview() {
     const token = useToken();
     const { discountCode } = useLocalSearchParams();
-    console.log(discountCode);
     const { data: orders, isPending } = useQuery({
-        queryKey: ['orders', discountCode],
+        queryKey: ['orders'],
         queryFn: () => checkoutPreview(token, discountCode),
     });
     return { orders, isPending };

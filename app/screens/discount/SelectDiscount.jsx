@@ -12,7 +12,7 @@ import useDiscount from '@/src/features/discount/useDiscount';
 import DiscountDetail from './DiscountDetail';
 import Loading from '@/src/components/Loading';
 
-const SelectDiscount = ({ bottomSheetRef, discounts, discount, isLoading }) => {
+const SelectDiscount = ({ bottomSheetRef, discounts, discount, isLoading, discountCodeParams }) => {
     const bottomSheetRefIn = useRef(null);
     const { checkoutUseDiscount, isCheckoutUseDiscounting } = useCheckoutUseDiscount();
     const [discountCode, setDiscountCode] = useState('');
@@ -85,6 +85,7 @@ const SelectDiscount = ({ bottomSheetRef, discounts, discount, isLoading }) => {
                             discount={discount}
                             onCloseIn={handleCloseIn}
                             handleApplyDiscount={handleApplyDiscount}
+                            discountCodeParams={discountCodeParams}
                         />
                     )}
                 </BottomSheetScrollView>

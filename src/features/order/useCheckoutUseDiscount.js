@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { checkoutPreview } from '../../services/apiOrder';
 import Toast from 'react-native-toast-message';
 import useToken from '../../hooks/useToken';
+import { Alert } from 'react-native';
 
 export default function useCheckoutUseDiscount() {
     const token = useToken();
@@ -16,7 +17,7 @@ export default function useCheckoutUseDiscount() {
             Toast.show({ type: 'success', text1: 'Đã áp dụng mã giảm giá thành công' });
         },
         onError: (err) => {
-            Toast.show({ type: 'error', text1: err.message });
+            Alert.alert('Có lỗi', 'Mã giảm giá không hợp lệ');
         },
     });
 

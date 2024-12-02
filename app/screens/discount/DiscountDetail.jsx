@@ -6,12 +6,13 @@ import Toast from 'react-native-toast-message';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import ButtonIcon from '@/src/components/ButtonIcon';
+import { useLocalSearchParams } from 'expo-router';
 
-const DiscountDetail = ({ discount, handleApplyDiscount, onCloseIn }) => {
+const DiscountDetail = ({ discount, handleApplyDiscount, onCloseIn, discountCodeParams }) => {
     const {
         discount_name,
         discount_content,
-        discount_code: discountCode,
+        discount_code,
         discount_value,
         discount_value_type,
         min_order_value,
@@ -22,11 +23,14 @@ const DiscountDetail = ({ discount, handleApplyDiscount, onCloseIn }) => {
         days_remaining,
     } = discount.metaData;
 
+    console.log(discountCodeParams, discount_code);
+    const compareDiscountCode = discountCodeParams === discount_code;
+    console.log(compareDiscountCode);
     const handleCopyDiscountCode = () => {
-        Clipboard.setString(discountCode);
+        Clipboard.setString(discount_code);
         Toast.show({
             type: 'success',
-            text1: `Mã ${discountCode} đã được sao chép!`,
+            text1: `Mã ${discount_code} đã được sao chép!`,
         });
     };
 
@@ -54,19 +58,30 @@ const DiscountDetail = ({ discount, handleApplyDiscount, onCloseIn }) => {
                 </Text>
 
                 <View className="mt-10 flex flex-col items-center">
-                    <QRCodeUI value={discountCode} />
-                    <Text className="mt-4 text-text font-semibold">{discountCode}</Text>
+                    <QRCodeUI value={discount_code} />
+                    <Text className="mt-4 text-text font-semibold">{discount_code}</Text>
                     <Pressable className="mt-1" onPress={handleCopyDiscountCode}>
                         <Text className="text-blue-500 font-medium text-lg">Sao chép</Text>
                     </Pressable>
-                    <Pressable
-                        className="mt-8 bg-slate-950 py-4  px-8 rounded-full"
-                        onPress={() => {
-                            handleApplyDiscount(discountCode);
-                            onCloseIn();
-                        }}>
-                        <Text className="text-white text-lg font-semibold">Sử dụng ngay</Text>
-                    </Pressable>
+                    {compareDiscountCode ? (
+                        <Pressable
+                            className="mt-8 bg-red-500 py-4  px-8 rounded-full"
+                            onPress={() => {
+                                handleApplyDiscount(discount_code);
+                                onCloseIn();
+                            }}>
+                            <Text className="text-white text-lg font-semibold">Sử dụng sau</Text>
+                        </Pressable>
+                    ) : (
+                        <Pressable
+                            className="mt-8 bg-slate-950 py-4  px-8 rounded-full"
+                            onPress={() => {
+                                handleApplyDiscount(discount_code);
+                                onCloseIn();
+                            }}>
+                            <Text className="text-white text-lg font-semibold">Sử dụng ngay</Text>
+                        </Pressable>
+                    )}
                 </View>
             </View>
             <View className="mt-12 pb-10">

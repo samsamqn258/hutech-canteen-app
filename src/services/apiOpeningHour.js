@@ -21,3 +21,22 @@ export const getOpeningHours = async (openHourID, token) => {
         throw new Error('Không thể lấy được giờ hoạt động', e);
     }
 };
+
+export const getOpeningTimesForNextDays = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/getOpeningTimesForNextDays`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+        });
+        if (!res.ok) throw new Error('Không thể lấy thời gian mở cửa cho các ngày tiếp theo');
+        const data = await res.json();
+        console.log(data);
+        return data;
+    } catch (err) {
+        console.error('Không thể lấy thời gian mở cửa cho các ngày tiếp theo');
+        throw new Error('Không thể lấy thời gian mở cửa cho các ngày tiếp theo');
+    }
+};

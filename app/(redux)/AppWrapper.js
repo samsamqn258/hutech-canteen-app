@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loadUser } from '../../src/features/auth/authSlice';
+
 const AppWrapper = () => {
     const dispatch = useDispatch();
 

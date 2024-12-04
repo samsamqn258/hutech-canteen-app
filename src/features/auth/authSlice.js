@@ -1,5 +1,11 @@
 const { default: AsyncStorage } = require('@react-native-async-storage/async-storage');
-const { createSlice } = require('@reduxjs/toolkit');
+const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
+
+function getPosition() {
+    return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+}
 
 const loadUserFromStorage = async () => {
     try {
@@ -10,9 +16,22 @@ const loadUserFromStorage = async () => {
     }
 };
 
+export const fetchAddress = createAsyncThunk('auth/fetchAddress', async function () {
+    // 1) We get the user's geolocation position
+    const positionObj = await getPosition();
+    const position = {
+        latitude: positionObj.coords.latitude,
+        longitude: positionObj.coords.longitude,
+    };
+
+    return { position };
+});
+
 // Khởi tạo state
 const initialState = {
     user: null,
+    status: 'idle',
+    position: {},
 };
 
 const authSlice = createSlice({
@@ -31,6 +50,20 @@ const authSlice = createSlice({
             state.user = action.payload;
         },
     },
+    extraReducers: (builder) =>
+        builder
+            .addCase(fetchAddress.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchAddress.fulfilled, (state, action) => {
+                state.position = action.payload.position;
+                state.status = 'idle';
+            })
+            .addCase(fetchAddress.rejected, (state, action) => {
+                state.status = 'error';
+                state.error =
+                    'There was a problem getting your address. Make sure to fill this field!';
+            }),
 });
 
 export const { loginUserAction, logoutUserAction, setUserAction } = authSlice.actions;

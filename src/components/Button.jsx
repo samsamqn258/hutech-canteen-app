@@ -12,6 +12,7 @@ const Button = ({
     onPress = () => {},
     loading = false,
     hasShadow = true,
+    disabled = false,
 }) => {
     const shadowStyle = {
         shadowColor: theme.colors.dark,
@@ -30,7 +31,10 @@ const Button = ({
     }
 
     return (
-        <Pressable onPress={onPress} style={[styles.button, buttonStyle, hasShadow && shadowStyle]}>
+        <Pressable
+            onPress={onPress}
+            disabled={disabled}
+            style={[styles.button, buttonStyle, hasShadow && shadowStyle]}>
             <Text style={[styles.text, textStyle]}>{title}</Text>
         </Pressable>
     );

@@ -47,9 +47,6 @@ const OrderConfirm = () => {
     const [note, setNote] = useState('');
     const { position, isPositing } = useCurrentPosition();
 
-    console.log(selectedDate);
-    console.log(isPositing);
-
     const handleOpenSelectDiscount = () => {
         bottomSheetRefSelectDiscount.current?.present();
     };
@@ -69,9 +66,7 @@ const OrderConfirm = () => {
     );
 
     if (isPending) return <Loading />;
-    console.log(position);
 
-    console.log(orders);
     const { totalPrice, totalMinutes, finalPrice, totalDiscount } = orders.metaData;
 
     const handleTimeSelection = (day, timeValue, timeLabel) => {
@@ -93,6 +88,7 @@ const OrderConfirm = () => {
                 onSuccess: (data) => {
                     if (data) {
                         Linking.openURL(data);
+                        router.push('/(tabs)/home');
                     }
                 },
                 onError: () => {
@@ -270,6 +266,7 @@ const OrderConfirm = () => {
                     </Text>
                 </View>
                 <Button
+                    disabled={isCheckouting}
                     onPress={handleCheckout}
                     title="Thanh Toán"
                     buttonStyle={{

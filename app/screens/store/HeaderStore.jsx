@@ -7,22 +7,29 @@ import { theme } from '@/src/constants/theme';
 import Row from '@/src/components/Row';
 import ButtonIcon from '@/src/components/ButtonIcon';
 import Header from '@/src/components/Header';
+import Entypo from '@expo/vector-icons/Entypo';
 
-const HeaderStore = () => {
+const HeaderStore = ({ setOpenMap, openMap }) => {
+    const handleToggleMap = () => {
+        setOpenMap((open) => !open);
+    };
     return (
         <Header bg="bg-white">
             <Text className="text-3xl font-medium">Cửa hàng</Text>
-            <Row>
-                <ButtonIcon type="rounded">
+
+            <ButtonIcon type="rounded" onPress={handleToggleMap}>
+                {!openMap ? (
                     <Row>
-                        <AntDesign name="tagso" size={24} color={theme.colors.primary} />
-                        <Text className="text-dark font-semibold text-lg">8</Text>
+                        <Entypo name="map" size={20} color="black" />
+                        <Text className="text-dark font-semibold text-lg">Bản đồ</Text>
                     </Row>
-                </ButtonIcon>
-                <ButtonIcon type="rounded">
-                    <Feather name="bell" size={22} color="black" />
-                </ButtonIcon>
-            </Row>
+                ) : (
+                    <Row>
+                        <Feather name="list" size={20} color="black" />
+                        <Text className="text-dark font-semibold text-lg">Danh sách</Text>
+                    </Row>
+                )}
+            </ButtonIcon>
         </Header>
     );
 };

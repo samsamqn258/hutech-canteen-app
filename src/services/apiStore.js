@@ -41,3 +41,24 @@ export const getStore = async (shopID, token) => {
         throw new Error('Lỗi không tìm thấy cửa hàng theo ID', e.message);
     }
 };
+
+export const getStoresWithLocation = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/getAllWithLocation`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+        });
+        if (!res.ok) {
+            throw new Error('API_URL đã sai');
+        }
+        const data = await res.json();
+        console.log(data);
+        return data;
+    } catch (err) {
+        console.error('Không thể lấy tọa độ của cửa hàng', e);
+        throw new Error('Không thể lấy tọa độ của cửa hàng');
+    }
+};

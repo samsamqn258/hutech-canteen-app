@@ -86,3 +86,5 @@ export const getCurrentPosition = async () => {
         Alert.alert('Lỗi', 'Không thể lấy vị trí hiện tại. Vui lòng thử lại.');
     }
 };
+
+export const getListOrderPending = async;

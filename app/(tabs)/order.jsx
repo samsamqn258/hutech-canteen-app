@@ -1,12 +1,64 @@
-import { View, Text } from 'react-native';
-import React from 'react';
-
+import { ScrollView } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import ScreenWrapper from '@/src/components/ScreenWrapper';
+import HeaderOrder from '../screens/order/HeaderOrder';
+import OrderPending from '../screens/order/OrderPending';
+import OrderCompleted from '../screens/order/OrderCompleted';
+import OrderSuccess from '../screens/order/OrderSuccess';
+import OrderCancelled from '../screens/order/OrderCancelled';
+import Tabs from '@/src/components/Tabs';
+import { SceneMap } from 'react-native-tab-view';
+import { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import CustomBottomSheetModal from '@/src/components/CustomBottomSheetModal';
+import Loading from '@/src/components/Loading';
+import useOrder from '@/src/features/order/useOrder';
+import OrderDetail from '../screens/order/OrderDetail';
 const Order = () => {
-  return (
-    <View>
-      <Text>Order</Text>
-    </View>
-  );
+    const { order, isOrdering } = useOrder();
+    const bottomSheetRef = useRef(null);
+
+    const renderBackdrop = useCallback(
+        (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
+        [],
+    );
+
+    const handleClose = () => {
+        bottomSheetRef.current?.close();
+    };
+
+    const renderScene = SceneMap({
+        pending: () => <OrderPending bottomSheetRef={bottomSheetRef} />,
+        completed: OrderCompleted,
+        success: OrderSuccess,
+        cancelled: OrderCancelled,
+    });
+
+    const routes = [
+        { key: 'pending', title: 'Đang thực hiện' },
+        { key: 'completed', title: 'Đã hoàn tất' },
+        { key: 'success', title: 'Đã thanh toán' },
+        { key: 'cancelled', title: 'Đã hủy' },
+    ];
+
+    return (
+        <ScreenWrapper>
+            {/* Header */}
+            <HeaderOrder />
+            {/* Tab View */}
+            <Tabs renderScene={renderScene} routes={routes} />
+
+            {/* BottomSheet */}
+            <CustomBottomSheetModal
+                ref={bottomSheetRef}
+                renderBackdrop={renderBackdrop}
+                indexSnapPoint={3}
+                bg="#f5f5f5">
+                <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+                    {isOrdering ? <Loading /> : <OrderDetail order={order} onClose={handleClose} />}
+                </BottomSheetScrollView>
+            </CustomBottomSheetModal>
+        </ScreenWrapper>
+    );
 };
 
 export default Order;

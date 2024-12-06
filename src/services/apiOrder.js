@@ -54,10 +54,42 @@ export const checkout = async (newCheckout) => {
             );
 
         const data = await res.json();
-        console.log(data);
         return data.metaData;
     } catch (e) {
         throw new Error(e);
+    }
+};
+
+export const getOrder = async (orderID, token) => {
+    try {
+        const res = await fetch(`${API_URL}/getOrderDetail/${orderID}`, {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        });
+        if (!res.ok) throw new Error('API_URL đã sai');
+        const data = await res.json();
+
+        return data;
+    } catch (err) {
+        throw new Error('Không thể lấy chi tiết order');
+    }
+};
+
+export const deleteOrder = async (order) => {
+    console.log(order);
+    const { orderID, token } = order;
+    try {
+        const res = await fetch(`${API_URL}/cancelOrder/${orderID}`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: token,
+            },
+        });
+        if (!res.ok) throw new Error('API_URL đã sai');
+    } catch (err) {
+        throw new Error('Không thể xóa order');
     }
 };
 
@@ -76,9 +108,6 @@ export const getCurrentPosition = async () => {
 
         // Lấy vị trí hiện tại
         const location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;
-
-        console.log('Vị trí hiện tại:', { latitude, longitude });
 
         return location.coords;
     } catch (error) {
@@ -87,4 +116,79 @@ export const getCurrentPosition = async () => {
     }
 };
 
-export const getListOrderPending = async;
+export const getListOrderPending = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/listOrderPendingOfUser`, {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        });
+
+        if (!res.ok) throw new Error('API_URL đã sai');
+
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Không thể lấy danh sách sản phảm đang chờ', err);
+        throw new Error('Không thể lấy danh sách sản phẩm đang chờ');
+    }
+};
+
+export const getListOrderCancelled = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/listOrderCancelledOfUser`, {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        });
+
+        if (!res.ok) throw new Error('API_URL đã sai');
+
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Không thể lấy danh sách sản phảm đã hủy', err);
+        throw new Error('Không thể lấy danh sách sản phẩm đã hủy');
+    }
+};
+
+export const getListOrderCompleted = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/listOrderCompletedOfUser`, {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        });
+
+        if (!res.ok) throw new Error('API_URL đã sai');
+
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Không thể lấy danh sách sản phảm đã hoàn tất', err);
+        throw new Error('Không thể lấy danh sách sản phẩm đã hoàn tất');
+    }
+};
+
+export const getListOrderSuccess = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/listOrderSuccessOfUser`, {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        });
+
+        if (!res.ok) throw new Error('API_URL đã sai');
+
+        const data = await res.json();
+
+        return data;
+    } catch (err) {
+        console.error('Không thể lấy danh sách sản phảm đã thanh toán thành công', err);
+        throw new Error('Không thể lấy danh sách sản phẩm đã thanh toán thành công');
+    }
+};

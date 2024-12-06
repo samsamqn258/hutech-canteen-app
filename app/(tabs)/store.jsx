@@ -19,6 +19,7 @@ const Store = () => {
     const { store, isPending: isStoring } = useStore();
     const { mapStores, isMapStoring } = useMapStores();
     const [openMap, setOpenMap] = useState(false);
+
     const handleClose = () => {
         bottomSheetRef.current?.close();
     };

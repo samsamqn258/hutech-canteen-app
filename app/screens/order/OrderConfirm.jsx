@@ -1,13 +1,4 @@
-import {
-    View,
-    Text,
-    ScrollView,
-    Image,
-    Pressable,
-    KeyboardAvoidingView,
-    Linking,
-    Alert,
-} from 'react-native';
+import { View, Text, ScrollView, Image, Pressable, Alert, Linking } from 'react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import ScreenWrapper from '@/src/components/ScreenWrapper';
 import BackButton from '@/src/components/BackButton';

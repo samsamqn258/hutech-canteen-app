@@ -41,7 +41,7 @@ export const register = async ({ email, password, name }) => {
         }
 
         const data = await res.json();
-        console.log(data);
+
         return data;
     } catch (e) {
         console.error(e);

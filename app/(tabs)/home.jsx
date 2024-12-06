@@ -1,5 +1,5 @@
-import { FlatList, ScrollView, Text, View } from 'react-native';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useCategories from '../screens/category/useCategories';
 import useAddToCart from '@/src/features/cart/useAddToCart';

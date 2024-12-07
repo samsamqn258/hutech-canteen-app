@@ -22,6 +22,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { theme } from '@/src/constants/theme';
 import useToken from '@/src/hooks/useToken';
 import { router, useLocalSearchParams } from 'expo-router';
+import useUser from '@/src/features/auth/useUser';
+import useRecommendations from '@/src/features/product/useRecommendations';
+import Recommendation from '../screens/home/Recommendation';
 
 // Hàm tính tổng giá
 const calculateTotalPrice = (product, sideDishIDs, quantity) => {
@@ -46,7 +49,7 @@ const Home = () => {
     const bottomSheetRef = useRef(null);
     const scrollViewRef = useRef(null);
     const refs = useRef([]);
-    const user = useSelector((state) => state.auth.user.metaData.user);
+    const { user, isPending } = useUser();
 
     const { categories, isPending: isCategoriesLoading } = useCategories();
     const { product, isPending: isProductLoading } = useProduct();
@@ -56,6 +59,7 @@ const Home = () => {
     const [quantity, setQuantity] = useState(1);
     const [checked, setChecked] = useState({});
     const { addToCart, isAdding } = useAddToCart();
+    const { recommendations, isRecommending } = useRecommendations();
 
     const totalPrice = useMemo(
         () => calculateTotalPrice(product, sideDishID, quantity),
@@ -119,7 +123,7 @@ const Home = () => {
         }
     }, []);
 
-    if (isCategoriesLoading) return <Loading />;
+    if (isRecommending || isCategoriesLoading || isPending) return <Loading />;
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} className="bg-body" ref={scrollViewRef}>
@@ -129,6 +133,9 @@ const Home = () => {
 
                 {/* User points */}
                 <Point user={user} />
+
+                {/* RecommendationsForUser */}
+                <Recommendation recommendations={recommendations} />
 
                 {/* Carousel */}
                 <Carousel />

@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 
-const StoreItem = ({ store, bottomSheetRef }) => {
+const StoreItem = ({ store, bottomSheetRef, user }) => {
     const {
         shop_image: shopImage,
         _id: shopID,
@@ -11,6 +11,8 @@ const StoreItem = ({ store, bottomSheetRef }) => {
         location_id: locationID,
     } = store;
 
+    const isCurrentStore = shopID === user.shopId;
+
     const handlePress = () => {
         router.setParams({ shopID });
         bottomSheetRef.current?.present();
@@ -18,21 +20,25 @@ const StoreItem = ({ store, bottomSheetRef }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <View className="mt-2 w-full bg-white p-4 h-32 rounded-lg shadow-sm flex flex-row gap-4">
-                <Image
-                    source={{ uri: shopImage }}
-                    className="w-24 h-full rounded-lg object-cover"
-                />
-                <View className="flex flex-col justify-between">
-                    <View>
-                        <Text className="text-xs font-semibold text-text">HUTECH CANTEEN</Text>
-                        <Text className="mt-1 text-lg">{shopName}</Text>
+            <View className="mt-2 w-full bg-white p-4 h-32 rounded-lg shadow-sm flex flex-row gap-4 justify-between">
+                <View className="flex flex-row gap-4">
+                    <Image
+                        source={{ uri: shopImage }}
+                        className="w-24 h-full rounded-lg object-cover"
+                    />
+                    <View className="flex flex-col justify-between">
+                        <View>
+                            <Text className="text-xs font-semibold text-text">HUTECH CANTEEN</Text>
+                            <Text className="mt-1 text-lg">{shopName}</Text>
+                        </View>
+                        <Text
+                            className={`${status === 'active' ? 'text-green-500' : 'text-text'} font-medium`}>
+                            {status === 'active' ? 'Đang hoạt động' : 'Ngưng hoạt động'}
+                        </Text>
                     </View>
-                    <Text
-                        className={`${status === 'active' ? 'text-green-500' : 'text-text'} font-medium`}>
-                        {status === 'active' ? 'Đang hoạt động' : 'Ngưng hoạt động'}
-                    </Text>
                 </View>
+
+                {isCurrentStore && <View className="w-3 h-3 rounded-full bg-primary"></View>}
             </View>
         </TouchableOpacity>
     );

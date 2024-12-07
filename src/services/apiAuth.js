@@ -59,6 +59,7 @@ export const getUser = async (token) => {
         });
         if (!res.ok) throw new Error('API_URL đã sai');
         const data = await res.json();
+        console.log(data);
         return data.metaData;
     } catch (err) {
         throw new Error('Không thể lấy thông tin người dùng');

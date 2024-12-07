@@ -57,6 +57,26 @@ export const getProduct = async (productID, token) => {
     }
 };
 
+export const getRecommendationsForUser = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/getRecommendationsForUser`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+        });
+
+        if (!res.ok) throw new Error('API_URL đã sai');
+
+        const data = await res.json();
+        console.log(data);
+        return data;
+    } catch (err) {
+        throw new Error('Không thể lấy gợi ý sản phẩm');
+    }
+};
+
 export const searchProduct = async (query, token) => {
     try {
         const res = await fetch(`${API_URL}/searchELT?query=${query}`, {

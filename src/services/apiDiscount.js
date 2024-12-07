@@ -14,6 +14,7 @@ export const getDiscounts = async (token) => {
             throw new Error('API_URL đã sai');
         }
         const data = await res.json();
+        console.log(data);
         return data;
     } catch (e) {
         console.error('Không thể lấy danh sách giảm giá', e);

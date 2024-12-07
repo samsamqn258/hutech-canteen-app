@@ -6,7 +6,7 @@ const Products = ({ products, numColumn = 1, bottomSheetRef }) => {
         <View className="flex flex-1 flex-wrap flex-row gap-x-4 mt-4">
             {products.map((item, index) => (
                 <ProductItem
-                    key={item._id}
+                    key={index}
                     item={item}
                     numColumn={numColumn}
                     bottomSheetRef={bottomSheetRef}

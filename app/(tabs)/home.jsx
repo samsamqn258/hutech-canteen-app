@@ -44,7 +44,10 @@ const calculateTotalPrice = (product, sideDishIDs, quantity) => {
 
 const Home = () => {
     const bottomSheetRef = useRef(null);
+    const scrollViewRef = useRef(null);
+    const refs = useRef([]);
     const user = useSelector((state) => state.auth.user.metaData.user);
+
     const { categories, isPending: isCategoriesLoading } = useCategories();
     const { product, isPending: isProductLoading } = useProduct();
     const token = useToken();
@@ -104,10 +107,22 @@ const Home = () => {
         [],
     );
 
+    const handleCategoryPress = useCallback((categoryIndex) => {
+        if (scrollViewRef.current && refs.current[categoryIndex]) {
+            refs.current[categoryIndex].measureLayout(
+                scrollViewRef.current,
+                (x, y) => {
+                    scrollViewRef.current.scrollTo({ y, animated: true });
+                },
+                () => {},
+            );
+        }
+    }, []);
+
     if (isCategoriesLoading) return <Loading />;
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} className="bg-body">
+        <ScrollView showsVerticalScrollIndicator={false} className="bg-body" ref={scrollViewRef}>
             <ScreenWrapper>
                 {/* Header */}
                 <HeaderHome user={user} />
@@ -119,15 +134,16 @@ const Home = () => {
                 <Carousel />
 
                 {/* Categories */}
-                <Categories categories={categories} />
+                <Categories categories={categories} onCategoryPress={handleCategoryPress} />
 
                 {/* Products by category */}
-                {categories.metaData.map((category) => (
-                    <CategoryProducts
-                        key={category._id}
-                        categoryId={category._id}
-                        bottomSheetRef={bottomSheetRef}
-                    />
+                {categories.metaData.map((category, index) => (
+                    <View key={category._id} ref={(el) => (refs.current[index] = el)}>
+                        <CategoryProducts
+                            categoryId={category._id}
+                            bottomSheetRef={bottomSheetRef}
+                        />
+                    </View>
                 ))}
 
                 {/* Bottom sheet for product details */}

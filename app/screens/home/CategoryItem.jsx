@@ -1,27 +1,29 @@
-import { View, Text, FlatList, Animated, Image, ScrollView } from 'react-native';
+import { View, Text, FlatList, Animated, Image, ScrollView, Pressable } from 'react-native';
 import React, { useRef } from 'react';
 import { wp } from '@/src/helpers/common';
 import Empty from '@/src/components/Empty';
 
-const CategoryItem = ({ categories }) => {
+const CategoryItem = ({ categories, onCategoryPress }) => {
     const scrollX = useRef(new Animated.Value(0)).current;
 
     const data = categories?.metaData;
 
     if (!data) return <Empty value="Không có danh mục sản phẩm nào" />;
 
-    const renderItem = ({ item }) => (
-        <View className="w-20 mr-4 mb-4">
-            <View className="flex gap-2 items-center">
-                <View className="rounded-full  bg-secondary p-4 h-14 w-14 flex items-center justify-center">
-                    <Image
-                        source={{ uri: item.category_images }}
-                        className="h-10 w-10 object-cover"
-                    />
+    const renderItem = ({ item, index }) => (
+        <Pressable onPress={() => onCategoryPress(index)}>
+            <View className="w-20 mr-4 mb-4">
+                <View className="flex gap-2 items-center">
+                    <View className="rounded-full bg-secondary p-4 h-14 w-14 flex items-center justify-center">
+                        <Image
+                            source={{ uri: item.category_images }}
+                            className="h-10 w-10 object-cover"
+                        />
+                    </View>
+                    <Text className="text-text font-semibold">{item.category_name}</Text>
                 </View>
-                <Text className="text-text font-semibold">{item.category_name}</Text>
             </View>
-        </View>
+        </Pressable>
     );
 
     const handleScroll = Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {

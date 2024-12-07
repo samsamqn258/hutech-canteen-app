@@ -40,6 +40,7 @@ export const authReducer = authSlice.reducer;
 // Tải người dùng
 export const loadUser = () => async (dispatch) => {
     const userInfo = await loadUserFromStorage();
+
     if (userInfo) {
         dispatch(setUserAction(userInfo));
     }

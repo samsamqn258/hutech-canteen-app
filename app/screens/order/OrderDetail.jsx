@@ -39,11 +39,11 @@ const OrderDetail = ({ order, onClose }) => {
             backgroundColor = 'bg-orange-400';
             break;
         case 'completed':
-            title = 'Đã hoàn thành';
+            title = 'Đã nhận món';
             backgroundColor = 'bg-green-400';
             break;
         case 'success':
-            title = 'Đã thanh toán';
+            title = 'Đã hoàn thành';
             backgroundColor = 'bg-green-400';
             break;
         case 'cancelled':
@@ -56,7 +56,7 @@ const OrderDetail = ({ order, onClose }) => {
             break;
     }
     return (
-        <View className="">
+        <View>
             <View className="flex flex-row justify-between items-center px-4  pb-4 ">
                 <View></View>
                 <Text className="text-center text-xl font-bold text-text">Trạng thái đơn hàng</Text>
@@ -75,7 +75,9 @@ const OrderDetail = ({ order, onClose }) => {
                     Thời gian hoàn thành dự kiến
                 </Text>
                 <Text className=" text-lg font-semibold">
-                    {formattedTime(estimated_delivery_time)}
+                    {order_status === 'cancelled'
+                        ? 'Đơn hàng đã bị hủy'
+                        : formattedTime(estimated_delivery_time)}
                 </Text>
             </View>
             <View className="p-4 mt-4 bg-white">
@@ -116,9 +118,9 @@ const OrderDetail = ({ order, onClose }) => {
             <View className="p-4 mt-4 bg-white">
                 <Text className="text-2xl  font-semibold">Sản phẩm đã chọn</Text>
                 <View className="flex flex-col gap-4 mt-4 ">
-                    {order_product.map((product) => (
+                    {order_product.map((product, index) => (
                         <View
-                            key={product._id}
+                            key={index}
                             className="flex flex-row items-center gap-4 border-b-[1px] border-b-gray pb-3 justify-between">
                             <View className="flex flex-row gap-4 items-center">
                                 <Text className="text-base font-medium">x{product.quantity}</Text>

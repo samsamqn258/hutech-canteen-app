@@ -10,7 +10,7 @@ const Tabs = ({ renderScene, routes }) => {
             <TabBar
                 {...props}
                 indicatorStyle={{ backgroundColor: theme.colors.secondary }}
-                style={{ backgroundColor: theme.colors.primary, borderRadius: 6, marginTop: 10 }}
+                style={{ backgroundColor: theme.colors.primary }}
             />
         );
     };
@@ -21,6 +21,7 @@ const Tabs = ({ renderScene, routes }) => {
             renderScene={renderScene}
             onIndexChange={setIndex}
             renderTabBar={renderTabBar}
+            style={{ marginHorizontal: -16 }}
             lazy
         />
     );

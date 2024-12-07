@@ -1,4 +1,3 @@
-import { ScrollView } from 'react-native';
 import React, { useCallback, useRef } from 'react';
 import ScreenWrapper from '@/src/components/ScreenWrapper';
 import HeaderOrder from '../screens/order/HeaderOrder';
@@ -28,15 +27,15 @@ const Order = () => {
 
     const renderScene = SceneMap({
         pending: () => <OrderPending bottomSheetRef={bottomSheetRef} />,
-        completed: OrderCompleted,
-        success: OrderSuccess,
-        cancelled: OrderCancelled,
+        completed: () => <OrderCompleted bottomSheetRef={bottomSheetRef} />,
+        success: () => <OrderSuccess bottomSheetRef={bottomSheetRef} />,
+        cancelled: () => <OrderCancelled bottomSheetRef={bottomSheetRef} />,
     });
 
     const routes = [
         { key: 'pending', title: 'Đang thực hiện' },
-        { key: 'completed', title: 'Đã hoàn tất' },
-        { key: 'success', title: 'Đã thanh toán' },
+        { key: 'completed', title: 'Đã nhận món' },
+        { key: 'success', title: 'Đã hoàn thành' },
         { key: 'cancelled', title: 'Đã hủy' },
     ];
 

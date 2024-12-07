@@ -5,7 +5,6 @@ import * as Location from 'expo-location';
 const API_URL = `${API_BASE_URL}/order`;
 
 export const checkoutPreview = async (token, discountCode) => {
-    console.log(token, discountCode);
     try {
         const res = await fetch(`${API_URL}/checkoutPreview`, {
             method: 'POST',
@@ -78,7 +77,6 @@ export const getOrder = async (orderID, token) => {
 };
 
 export const deleteOrder = async (order) => {
-    console.log(order);
     const { orderID, token } = order;
     try {
         const res = await fetch(`${API_URL}/cancelOrder/${orderID}`, {

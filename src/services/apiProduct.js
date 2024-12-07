@@ -22,6 +22,20 @@ export const getProductsInCategory = async (categoryID, token) => {
     }
 };
 
+export const getProducts = async () => {
+    try {
+        const res = await fetch(`${API_URL}/getAllProducts`);
+
+        if (!res.ok) throw new Error('API_URL đã sai');
+
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Không lấy được tất cả sản phẩm', err);
+        throw Error('Không lấy được tất cả sản phẩm', err);
+    }
+};
+
 export const getProduct = async (productID, token) => {
     console.log(productID, token);
     try {

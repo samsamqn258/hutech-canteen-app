@@ -9,7 +9,7 @@ import Row from '@/src/components/Row';
 import ButtonIcon from '@/src/components/ButtonIcon';
 import SearchInput from '@/src/components/SearchInput';
 import { router, useRouter } from 'expo-router';
-const Categories = ({ categories }) => {
+const Categories = ({ categories, onCategoryPress }) => {
     const router = useRouter();
 
     return (
@@ -23,7 +23,7 @@ const Categories = ({ categories }) => {
                 </ButtonIcon>
             </Row>
 
-            <CategoryItem categories={categories} />
+            <CategoryItem categories={categories} onCategoryPress={onCategoryPress} />
         </View>
     );
 };

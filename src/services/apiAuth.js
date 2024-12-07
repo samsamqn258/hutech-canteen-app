@@ -48,3 +48,19 @@ export const register = async ({ email, password, name }) => {
         throw new Error('Tài khoản hoặc mật khẩu đã tồn tại');
     }
 };
+
+export const getUser = async (token) => {
+    try {
+        const res = await fetch(`${API_URL}/getUserInfo`, {
+            method: 'GET',
+            headers: {
+                Authorization: token,
+            },
+        });
+        if (!res.ok) throw new Error('API_URL đã sai');
+        const data = await res.json();
+        return data.metaData;
+    } catch (err) {
+        throw new Error('Không thể lấy thông tin người dùng');
+    }
+};

@@ -16,6 +16,7 @@ import Discounts from '../screens/discount/Discounts';
 import CustomBottomSheetModal from '@/src/components/CustomBottomSheetModal';
 import { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import DiscountDetail from '../screens/discount/DiscountDetail';
+import { router } from 'expo-router';
 const Discount = () => {
     const bottomSheetRef = useRef(null);
     const { discounts, isPending } = useDiscounts();
@@ -66,7 +67,9 @@ const Discount = () => {
                 <View className="mt-80">
                     <View className=" flex-row flex-wrap gap-4">
                         <View className="flex-1 gap-4">
-                            <View className="bg-white rounded-lg p-4">
+                            <Pressable
+                                className="bg-white rounded-lg p-4"
+                                onPress={() => router.push('/screens/ranking/RankingScreen')}>
                                 <MaterialCommunityIcons
                                     name="crown-outline"
                                     size={22}
@@ -75,27 +78,36 @@ const Discount = () => {
                                 <Text className="text-text font-bold text-lg mt-2">
                                     Hạng thành viên
                                 </Text>
-                            </View>
-                            <View className="bg-white rounded-lg p-4 ">
+                            </Pressable>
+                            <Pressable
+                                className="bg-white rounded-lg p-4"
+                                onPress={() =>
+                                    router.push('/screens/redeemPoint/RedeemPointHistory')
+                                }>
                                 <FontAwesome
                                     name="exchange"
                                     size={22}
                                     color={theme.colors.primary}
                                 />
+
                                 <Text className="text-text font-bold text-lg mt-2">
                                     Lịch sử RICE
                                 </Text>
-                            </View>
+                            </Pressable>
                         </View>
                         <View className="flex-1 gap-4">
-                            <View className="bg-white rounded-lg p-4 ">
+                            <Pressable
+                                onPress={() =>
+                                    router.push('/screens/redeemPoint/RedeemPointScreen')
+                                }
+                                className="bg-white rounded-lg p-4 ">
                                 <SimpleLineIcons
                                     name="present"
                                     size={22}
                                     color={theme.colors.primary}
                                 />
                                 <Text className="text-text font-bold text-lg mt-2">Đổi Rice</Text>
-                            </View>
+                            </Pressable>
                             <View className="bg-white rounded-lg p-4 ">
                                 <MaterialCommunityIcons
                                     name="shield-account-outline"
@@ -103,7 +115,7 @@ const Discount = () => {
                                     color="#309ee9"
                                 />
                                 <Text className="text-text font-bold text-lg mt-2">
-                                    Hạng thành viên
+                                    Quyển lợi của bạn
                                 </Text>
                             </View>
                         </View>

@@ -35,6 +35,15 @@
         "plugins": ["expo-router", "expo-font"],
         "experiments": {
             "typedRoutes": true
-        }
+        },
+        "extra": {
+            "router": {
+                "origin": false
+            },
+            "eas": {
+                "projectId": "e9445372-480c-4878-ac1d-3f50525b0d04"
+            }
+        },
+        "owner": "taikhoanexpo2024"
     }
 }

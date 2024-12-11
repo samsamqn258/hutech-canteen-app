@@ -23,9 +23,8 @@ const DiscountDetail = ({ discount, handleApplyDiscount, onCloseIn, discountCode
         days_remaining,
     } = discount.metaData;
 
-    console.log(discountCodeParams, discount_code);
     const compareDiscountCode = discountCodeParams === discount_code;
-    console.log(compareDiscountCode);
+
     const handleCopyDiscountCode = () => {
         Clipboard.setString(discount_code);
         Toast.show({

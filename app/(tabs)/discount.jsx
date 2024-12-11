@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
 import React, { useCallback, useRef } from 'react';
 import ScreenWrapper from '@/src/components/ScreenWrapper';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,14 +16,14 @@ import Discounts from '../screens/discount/Discounts';
 import CustomBottomSheetModal from '@/src/components/CustomBottomSheetModal';
 import { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import DiscountDetail from '../screens/discount/DiscountDetail';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import useUser from '@/src/features/auth/useUser';
 const Discount = () => {
     const bottomSheetRef = useRef(null);
     const { discounts, isPending } = useDiscounts();
     const { discount, isDiscounting } = useDiscount();
     const { user, isPending: isUserLoading } = useUser();
-
+    const pathname = usePathname();
     const handleClose = () => {
         bottomSheetRef.current?.close();
     };
@@ -33,9 +33,14 @@ const Discount = () => {
         [],
     );
 
+    const handleApplyDiscount = () => {
+        if (!pathname.startsWith('/screens/order/OrderConfirm')) {
+            Alert.alert('Có lỗi', 'Bạn đang không ở trang xác nhận đơn hàng');
+        }
+    };
+
     if (isPending || isUserLoading) return <Loading />;
 
-    console.log(discounts, user);
     const getRankLevel = (points) => {
         if (points >= 20000) return 'diamond';
         if (points >= 10000) return 'platinum';
@@ -165,7 +170,11 @@ const Discount = () => {
                             {isDiscounting ? (
                                 <Loading />
                             ) : (
-                                <DiscountDetail discount={discount} onCloseIn={handleClose} />
+                                <DiscountDetail
+                                    discount={discount}
+                                    onCloseIn={handleClose}
+                                    handleApplyDiscount={handleApplyDiscount}
+                                />
                             )}
                         </BottomSheetScrollView>
                     </CustomBottomSheetModal>

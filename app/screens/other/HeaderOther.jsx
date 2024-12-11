@@ -1,6 +1,5 @@
 import { View, Text, Image } from 'react-native';
 import React from 'react';
-import Info from './Info';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { theme } from '../../../src/constants/theme';
@@ -12,13 +11,12 @@ import { router } from 'expo-router';
 import useCarts from '@/src/features/cart/useCarts';
 import Loading from '@/src/components/Loading';
 
-const HeaderHome = ({ user }) => {
+const HeaderOther = ({ user }) => {
     const { carts, isPending } = useCarts();
 
     return (
-        <Header bg="bg-header">
-            <Info user={user} />
-
+        <Header bg="bg-white">
+            <Text className="text-3xl font-medium">Khác</Text>
             <Row>
                 <ButtonIcon type="rounded">
                     <Feather name="bell" size={22} color="black" />
@@ -37,4 +35,4 @@ const HeaderHome = ({ user }) => {
     );
 };
 
-export default HeaderHome;
+export default HeaderOther;

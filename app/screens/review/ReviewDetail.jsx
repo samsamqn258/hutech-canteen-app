@@ -7,109 +7,68 @@ import { useSelector } from 'react-redux';
 import useDeleteOrder from '@/src/features/order/useDeleteOrder';
 import useToken from '@/src/hooks/useToken';
 import QRCodeUI from '@/src/components/QRCodeUI';
-const OrderDetail = ({ order, onClose }) => {
+import RatingStar from '@/src/components/RatingStar';
+const ReviewDetail = ({ review, onClose }) => {
     const {
-        _id: orderID,
-        estimated_delivery_time,
-        order_status,
-        order_cancellation_cutoff,
+        _id: reviewID,
+        review_order_id,
+        review_rating,
+        review_content,
+        review_day,
+    } = review.metaData;
+
+    const {
         order_trackingNumber,
         order_product,
         order_checkout,
-    } = order.metaData;
-    const user = useSelector((state) => state.auth.user.metaData.user);
-    const { deleteOrder, isDeleting } = useDeleteOrder();
-    const token = useToken();
-    const handleDeleteOrder = () => {
-        deleteOrder({ orderID, token });
-        onClose();
-    };
-
-    const currentTime = new Date();
-
-    const cancellationCutoffTime = new Date(order_cancellation_cutoff);
-
-    const isCancellationDisabled = cancellationCutoffTime <= currentTime;
-
-    let title = '';
-    let backgroundColor = '';
-
-    switch (order_status) {
-        case 'pending':
-            title = 'Đang xử lý';
-            backgroundColor = 'bg-orange-400';
-            break;
-        case 'success':
-            title = 'Đã hoàn thành';
-            backgroundColor = 'bg-green-400';
-            break;
-        case 'completed':
-            title = 'Đã nhận món';
-            backgroundColor = 'bg-green-400';
-            break;
-
-        case 'cancelled':
-            title = 'Đã hủy đơn';
-            backgroundColor = 'bg-red-400';
-            break;
-        default:
-            title = 'Trạng thái không xác định';
-            backgroundColor = 'bg-gray-400';
-            break;
-    }
+        estimated_delivery_time,
+        order_status,
+    } = review_order_id;
     return (
         <View>
             <View className="flex flex-row justify-between items-center px-4  pb-4 ">
                 <View></View>
-                <Text className="text-center text-xl font-bold text-text">Trạng thái đơn hàng</Text>
+                <Text className="text-center text-xl font-bold text-text">Chi tiết đánh giá</Text>
                 <Pressable onPress={onClose}>
                     <AntDesign name="closecircle" size={24} color={theme.colors.text} />
                 </Pressable>
             </View>
-            <View className="w-full h-72 bg-secondary flex items-center justify-center">
-                {order_status === 'success' ? (
-                    <QRCodeUI value={order_trackingNumber} size={200} />
-                ) : (
-                    <Image
-                        source={require('@/assets/images/z6105385135240_8d5fd936e38173e2b1f0cb53c08f5901.jpg')}
-                        className="w-60 h-60 rounded-full"
-                    />
-                )}
+            <View className="w-full h-72 bg-primary flex items-center justify-center">
+                <Image
+                    source={require('@/assets/images/rate.png')}
+                    className="w-60 h-60 rounded-full"
+                />
             </View>
             <View className="p-4 mt-4 bg-white">
                 <Text className="text-lg text-textLight font-medium">
                     Thời gian hoàn thành dự kiến
                 </Text>
                 <Text className=" text-lg font-semibold">
-                    {order_status === 'cancelled'
-                        ? 'Đơn hàng đã bị hủy'
-                        : formattedTime(estimated_delivery_time)}
+                    {formattedTime(estimated_delivery_time)}
                 </Text>
             </View>
+
             <View className="p-4 mt-4 bg-white">
-                <Text className="text-lg text-red-400 font-medium">Được hủy trước khung giờ</Text>
-                <Text className=" text-lg font-semibold text-red-400">
-                    {formattedTime(order_cancellation_cutoff)}
-                </Text>
+                <Text className="text-2xl  font-semibold">Đánh giá của bạn</Text>
+
+                <View className="mt-6">
+                    <RatingStar rate={review_rating} readonly={true} size={50} />
+                    <Text className="mt-4 text-lg font-medium">{review_content}</Text>
+                    <Text className=" text-textLight font-medium">{formattedTime(review_day)}</Text>
+                </View>
             </View>
+
             <View className="p-4 mt-4 bg-white">
                 <Text className="text-2xl  font-semibold">Thông tin đơn hàng</Text>
-                <View className="mt-6 flex flex-row items-center border-b-[1px] border-b-gray pb-4 ">
-                    <View className="border-r-[1px] border-r-gray mr-4 pr-32">
-                        <Text className="text-base text-textLight">Người nhận</Text>
-                        <Text className="text-lg">{user.name}</Text>
-                    </View>
-                    <View>
-                        <Text className="text-base text-textLight">Email xác nhận</Text>
-                        <Text className="text-lg">{user.email}</Text>
-                    </View>
-                </View>
+
                 <View className="mt-4 flex flex-row items-center border-b-[1px] border-b-gray pb-4 ">
                     <View>
                         <Text className="text-base text-textLight">Trạng thái đơn hàng</Text>
                         <View className="flex flex-row gap-2 items-center mt-2">
-                            <View className={`w-8 h-4 ${backgroundColor}`}></View>
-                            <Text className="text-lg font-medium">{title}</Text>
+                            <View className={`w-8 h-4 bg-green-400`}></View>
+                            <Text className="text-lg font-medium">
+                                {order_status && 'Đã nhận hàng'}
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -189,16 +148,8 @@ const OrderDetail = ({ order, onClose }) => {
                     <Text className="text-lg text-text">MOMO</Text>
                 </View>
             </View>
-            <Pressable
-                className={`px-6 pt-6 pb-8 mt-4 bg-red-500 flex items-center justify-center ${isCancellationDisabled ? 'opacity-50' : ''}`}
-                disabled={isCancellationDisabled || isDeleting}
-                onPress={handleDeleteOrder}>
-                <Text className="text-white text-xl font-semibold">
-                    {isCancellationDisabled ? 'Không thể hủy' : 'Hủy đơn hàng'}
-                </Text>
-            </Pressable>
         </View>
     );
 };
 
-export default OrderDetail;
+export default ReviewDetail;

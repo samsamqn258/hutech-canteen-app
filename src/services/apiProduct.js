@@ -17,7 +17,6 @@ export const getProductsInCategory = async (categoryID, token) => {
 
         return data;
     } catch (err) {
-        console.error('Không lấy được danh sách sản phẩm trong danh mục');
         throw new Error('Không lấy được danh sách sản phẩm trong danh mục');
     }
 };
@@ -37,7 +36,6 @@ export const getProducts = async () => {
 };
 
 export const getProduct = async (productID, token) => {
-    console.log(productID, token);
     try {
         const res = await fetch(`${API_URL}/getProductById/${productID}`, {
             method: 'GET',
@@ -70,7 +68,7 @@ export const getRecommendationsForUser = async (token) => {
         if (!res.ok) throw new Error('API_URL đã sai');
 
         const data = await res.json();
-        console.log(data);
+
         return data;
     } catch (err) {
         throw new Error('Không thể lấy gợi ý sản phẩm');

@@ -3,7 +3,6 @@ import React from 'react';
 import useRedeemPointsNotUsed from '@/src/features/redeemPoint/useRedeemPointsNotUsed';
 import Loading from '@/src/components/Loading';
 import Empty from '@/src/components/Empty';
-
 import RedeemPointNotUsedItem from './RedeemPointNotUsedItem';
 const RedeemPointNotUsed = () => {
     const { redeemPointsNotUsed, isPending } = useRedeemPointsNotUsed();

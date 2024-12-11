@@ -34,8 +34,8 @@ const Order = () => {
 
     const routes = [
         { key: 'pending', title: 'Đang thực hiện' },
-        { key: 'completed', title: 'Đã nhận món' },
         { key: 'success', title: 'Đã hoàn thành' },
+        { key: 'completed', title: 'Đã nhận món' },
         { key: 'cancelled', title: 'Đã hủy' },
     ];
 

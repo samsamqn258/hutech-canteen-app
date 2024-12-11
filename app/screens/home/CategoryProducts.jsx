@@ -9,11 +9,12 @@ const CategoryProducts = ({ categoryId, bottomSheetRef }) => {
 
     if (isPending) return <Loading />;
 
+    if (!products) return;
     return (
         <View className="mt-10">
-            <Text className="text-xl font-bold">{products.metaData.category_name}</Text>
+            <Text className="text-xl font-bold">{products?.metaData.category_name}</Text>
             <Products
-                products={products.metaData.products}
+                products={products?.metaData.products}
                 numColumn={2}
                 bottomSheetRef={bottomSheetRef}
             />

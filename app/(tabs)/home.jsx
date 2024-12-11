@@ -135,7 +135,7 @@ const Home = () => {
                 <Point user={user} />
 
                 {/* RecommendationsForUser */}
-                <Recommendation recommendations={recommendations} />
+                <Recommendation recommendations={recommendations} bottomSheetRef={bottomSheetRef} />
 
                 {/* Carousel */}
                 <Carousel />
@@ -157,7 +157,7 @@ const Home = () => {
                 <CustomBottomSheetModal
                     ref={bottomSheetRef}
                     renderBackdrop={renderBackdrop}
-                    indexSnapPoint={4}
+                    indexSnapPoint={3}
                     bg="#f5f5f5">
                     {isProductLoading ? (
                         <Loading />

@@ -4,7 +4,7 @@ import { getUser } from '@/src/services/apiAuth';
 export default function useUser() {
     const token = useToken();
     const { data: user, isPending } = useQuery({
-        queryKey: ['user'],
+        queryKey: ['users'],
         queryFn: () => getUser(token),
     });
     return { user, isPending };

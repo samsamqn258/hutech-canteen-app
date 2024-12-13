@@ -17,11 +17,9 @@ export const checkoutPreview = async (token, discountCode) => {
             }),
         });
 
-        if (res.status === 403) throw new Error('Mã giảm giá không hợp lệ');
-
-        if (!res.ok) throw Error('API_URL đã sai');
-
         const data = await res.json();
+
+        if (data.code === 403) throw new Error(data.message);
 
         return data;
     } catch (e) {
@@ -47,12 +45,10 @@ export const checkout = async (newCheckout) => {
                 selectedDeliveryTime: deliveryTime,
             }),
         });
-        if (!res.ok)
-            throw new Error(
-                'Vị trí của bạn đang ở hơi xa so với cửa hàng vui lòng lựa chọn lại thời gian lấy hàng',
-            );
 
         const data = await res.json();
+        if (data.code === 403) throw new Error(data.message);
+
         return data.metaData;
     } catch (e) {
         throw new Error(e);

@@ -17,7 +17,7 @@ export default function useCheckoutUseDiscount() {
             Toast.show({ type: 'success', text1: 'Đã áp dụng mã giảm giá thành công' });
         },
         onError: (err) => {
-            Alert.alert('Có lỗi', 'Mã giảm giá không hợp lệ');
+            Alert.alert('Có lỗi', err.message);
         },
     });
 

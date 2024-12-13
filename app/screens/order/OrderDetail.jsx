@@ -39,7 +39,7 @@ const OrderDetail = ({ order, onClose }) => {
             title = 'Đang xử lý';
             backgroundColor = 'bg-orange-400';
             break;
-        case 'success':
+        case 'Success':
             title = 'Đã hoàn thành';
             backgroundColor = 'bg-green-400';
             break;
@@ -67,7 +67,7 @@ const OrderDetail = ({ order, onClose }) => {
                 </Pressable>
             </View>
             <View className="w-full h-72 bg-secondary flex items-center justify-center">
-                {order_status === 'success' ? (
+                {order_status === 'Success' ? (
                     <QRCodeUI value={order_trackingNumber} size={200} />
                 ) : (
                     <Image

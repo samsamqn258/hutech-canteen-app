@@ -12,7 +12,7 @@ export default function useCheckout() {
         },
 
         onError: (err) => {
-            Alert.alert('Không hợp lệ', err.message);
+            Alert.alert('Có lỗi', err.message);
         },
     });
 

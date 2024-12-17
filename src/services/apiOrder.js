@@ -29,7 +29,7 @@ export const checkoutPreview = async (token, discountCode) => {
 };
 
 export const checkout = async (newCheckout) => {
-    const { token, deliveryTime, note, discount_code, userLat, userLon } = newCheckout;
+    const { token, deliveryTime, note, discount_code, userLat, userLon, dineOption } = newCheckout;
     try {
         const res = await fetch(`${API_URL}/checkout`, {
             method: 'POST',
@@ -43,6 +43,7 @@ export const checkout = async (newCheckout) => {
                 userLon,
                 note,
                 selectedDeliveryTime: deliveryTime,
+                dineOption
             }),
         });
 

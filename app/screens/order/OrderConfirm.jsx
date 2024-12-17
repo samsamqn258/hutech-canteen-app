@@ -22,9 +22,12 @@ import Input from '@/src/components/Input';
 import Button from '@/src/components/Button';
 import { theme } from '@/src/constants/theme';
 import useToken from '@/src/hooks/useToken';
+import Select from '@/src/components/Select';
 const OrderConfirm = () => {
     const bottomSheetRefSelectDiscount = useRef(null);
     const bottomSheetRefSelectHour = useRef(null);
+    const bottomSheetRefSelectDeliveryMethod = useRef(null);
+
 
     const router = useRouter();
     const token = useToken();
@@ -37,6 +40,8 @@ const OrderConfirm = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [note, setNote] = useState('');
     const { position, isPositing } = useCurrentPosition();
+    const [deliveryMethod, setDeliveryMethod] = useState('dine_in');
+
 
     const handleOpenSelectDiscount = () => {
         bottomSheetRefSelectDiscount.current?.present();
@@ -46,12 +51,21 @@ const OrderConfirm = () => {
         bottomSheetRefSelectHour.current?.present();
     };
 
+    const handleOpenSelectDeliveryMethod = () => {
+        bottomSheetRefSelectDeliveryMethod.current?.present();
+    };
+
     const renderBackdropSelectDiscount = useCallback(
         (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
         [],
     );
 
     const renderBackdropSelectHour = useCallback(
+        (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
+        [],
+    );
+
+    const renderBackdropSelectDeliveryMethod = useCallback(
         (props) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props} />,
         [],
     );
@@ -74,6 +88,7 @@ const OrderConfirm = () => {
                 discount_code: discountCode,
                 userLat: position.latitude,
                 userLon: position.longitude,
+                dineOption: deliveryMethod
             },
             {
                 onSuccess: (data) => {
@@ -124,8 +139,19 @@ const OrderConfirm = () => {
                 </ScreenWrapper>
                 <View className="bg-white p-4 mt-5">
                     <Text className="text-2xl font-medium">Tự đến lấy hàng</Text>
+
                     <Pressable
                         className="flex flex-row items-center justify-between  border-t-[1px] border-t-gray mt-8 pt-4"
+                        onPress={handleOpenSelectDeliveryMethod}>
+
+                        <Text className=" text-xl font-medium">
+                            {deliveryMethod === 'dine_in' ? 'Ăn tại chỗ' : 'Mang đi'}
+                        </Text>
+                        <MaterialIcons name="arrow-forward-ios" size={10} color="black" />
+                    </Pressable>
+
+                    <Pressable
+                        className="flex flex-row items-center justify-between  border-t-[1px] border-t-gray mt-4 pt-4"
                         onPress={handleOpenSelectHour}>
                         <View>
                             <Text className=" text-lg ">
@@ -245,6 +271,25 @@ const OrderConfirm = () => {
                         )}
                     </BottomSheetScrollView>
                 </CustomBottomSheetModal>
+
+                {/* Modal Select Delivery Method */}
+                <CustomBottomSheetModal
+                    ref={bottomSheetRefSelectDeliveryMethod}
+                    renderBackdrop={renderBackdropSelectDeliveryMethod}
+                    indexSnapPoint={0}
+                    bg="#f5f5f5">
+                    <BottomSheetScrollView style={{ padding: 20 }}>
+                        <Select
+                            options={[
+                                { label: 'Ăn tại chỗ', value: 'dine_in' },
+                                { label: 'Mang đi', value: 'takeaway' },
+                            ]}
+                            value={deliveryMethod}  // Bind the selected value to state
+                            onChange={setDeliveryMethod}  // Update state when selection changes
+                        />
+                    </BottomSheetScrollView>
+                </CustomBottomSheetModal>
+
             </ScrollView>
             <View className="absolute bottom-0 right-0 left-0 bg-primary border-t-[1px] border-t-gray pt-2 pb-8 px-6 flex flex-row gap-10 items-center justify-between">
                 <View className="flex flex-col items-start">

@@ -21,7 +21,6 @@ const queryClient = new QueryClient({
 
 const RootLayout = () => {
     const router = useRouter();
-
     useEffect(() => {
         // Thiết lập xử lý thông báo khi app đang chạy
         Notifications.setNotificationHandler({
@@ -31,6 +30,14 @@ const RootLayout = () => {
                 shouldSetBadge: false,
             }),
         });
+
+        queryClient.invalidateQueries(['ordersPending'])
+        queryClient.invalidateQueries(['ordersSuccess'])
+        queryClient.invalidateQueries(['ordersCompleted'])
+        queryClient.invalidateQueries(['ordersCancelled'])
+
+
+
 
         // Đăng ký listener khi người dùng click vào thông báo
         const subscription = Notifications.addNotificationResponseReceivedListener((response) => {

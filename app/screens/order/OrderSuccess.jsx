@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import React from 'react';
 import Loading from '@/src/components/Loading';
 import useOrdersSuccess from '@/src/features/order/useOrdersSuccess';
@@ -14,11 +14,11 @@ const OrderSuccess = ({ bottomSheetRef }) => {
         return <Empty title="Chưa có đơn hàng nào được hoàn thành" />;
 
     return (
-        <View className="mt-2">
+        <ScrollView className="mt-2">
             {ordersSuccess.metaData.map((order) => (
                 <OrderSuccessItem order={order} bottomSheetRef={bottomSheetRef} key={order._id} />
             ))}
-        </View>
+        </ScrollView>
     );
 };
 

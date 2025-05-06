@@ -47,7 +47,7 @@ const Login = () => {
                 </View>
                 <Formik
                     initialValues={{
-                        email: 'toan@gmail.com',
+                        email: 'user@gmail.com',
                         password: '123456',
                         area: '',
                     }}

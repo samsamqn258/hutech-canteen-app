@@ -4,12 +4,12 @@
         "slug": "hutech-cateen-app",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
+        "icon": "./assets/images/icon.jpg",
         "scheme": "myapp",
         "userInterfaceStyle": "automatic",
         "backgroundColor": "#fefefe",
         "splash": {
-            "image": "./assets/images/icon.png",
+            "image": "./assets/images/icon.jpg",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },
@@ -18,19 +18,21 @@
             "newArchEnabled": true,
             "infoPlist": {
                 "NSLocationWhenInUseUsageDescription": "Ứng dụng cần quyền truy cập vị trí của bạn để hiển thị dịch vụ tốt hơn."
-            }
+            },
+            "bundleIdentifier": "com.samsamqn258.hutechcateenapp"
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/icon.png",
+                "foregroundImage": "./assets/images/icon.jpg",
                 "backgroundColor": "#ffffff"
             },
-            "newArchEnabled": true
+            "edgeToEdgeEnabled": true,
+            "newArchEnabled": false
         },
         "web": {
             "bundler": "metro",
             "output": "static",
-            "favicon": "./assets/images/icon.png"
+            "favicon": "./assets/images/icon.jpg"
         },
         "plugins": ["expo-router", "expo-font"],
         "experiments": {
@@ -41,9 +43,9 @@
                 "origin": false
             },
             "eas": {
-                "projectId": "e9445372-480c-4878-ac1d-3f50525b0d04"
+                "projectId": "229bc1e7-51e1-4c7f-a0b5-63d1351aef32"
             }
         },
-        "owner": "taikhoanexpo2024"
+        "owner": "samsamqn258"
     }
 }

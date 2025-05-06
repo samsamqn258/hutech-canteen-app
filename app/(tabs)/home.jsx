@@ -47,6 +47,7 @@ const calculateTotalPrice = (product, sideDishIDs, quantity) => {
 
 const Home = () => {
     const bottomSheetRef = useRef(null);
+
     const scrollViewRef = useRef(null);
     const refs = useRef([]);
     const { user, isPending } = useUser();
@@ -54,6 +55,7 @@ const Home = () => {
     const { categories, isPending: isCategoriesLoading } = useCategories();
     const { product, isPending: isProductLoading } = useProduct();
     const token = useToken();
+    console.log('Token:', token);
     const { productID } = useLocalSearchParams();
     const [sideDishID, setSideDishID] = useState([]);
     const [quantity, setQuantity] = useState(1);

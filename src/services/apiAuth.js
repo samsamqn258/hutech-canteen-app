@@ -5,6 +5,7 @@ const API_URL = `${API_BASE_URL}/user`;
 export const login = async ({ email, password, selectedShop: shop }) => {
     try {
         const deviceToken = await registerForPushNotificationsAsync();
+        console.log('Đây là device token', deviceToken);
         if (!deviceToken) {
             throw new Error('Không thể lấy device token');
         }
